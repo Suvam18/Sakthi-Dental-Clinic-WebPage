@@ -231,14 +231,19 @@ function renderAppointments() {
 
   if (appointments.length === 0) {
     container.innerHTML = `
-      <div class="glass-card" style="text-align: center; padding: 4rem 2rem; grid-column: 1 / -1;">
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
-          <i class="fa-solid fa-calendar-xmark"></i>
+      <div class="glass-card empty-appointments-card reveal-on-scroll is-visible">
+        <div class="empty-apt-icon-wrapper">
+          <div class="empty-apt-pulse-ring"></div>
+          <div class="empty-apt-icon">
+            <i class="fa-solid fa-calendar-plus"></i>
+          </div>
         </div>
-        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No Appointments Booked Yet</h3>
-        <p style="color: var(--text-muted); max-width: 460px; margin: 0 auto 1.5rem auto;">You haven't scheduled any consultations yet. Click the button below to book an appointment with our specialist doctors!</p>
-        <button class="btn btn-primary trigger-appointment">
-          <i class="fa-solid fa-calendar-plus"></i> Book Your First Appointment
+        <h3 class="empty-apt-title">No Appointments Scheduled Yet</h3>
+        <p class="empty-apt-subtitle">
+          You don't have any active consultations. Click below to schedule your appointment with our specialist dental team!
+        </p>
+        <button class="btn btn-primary btn-glow-primary trigger-appointment btn-empty-book">
+          <i class="fa-solid fa-calendar-check"></i> Book Your First Appointment
         </button>
       </div>
     `;
