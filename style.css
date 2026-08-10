@@ -740,6 +740,137 @@ ul {
   background: var(--bg-card);
 }
 
+/* Animated Ken Burns Video Motion */
+.ken-burns-video {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  display: block;
+  animation: kenBurnsZoom 14s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes kenBurnsZoom {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-8px, -6px); }
+  100% { transform: scale(1.05) translate(6px, 8px); }
+}
+
+/* Animated Laser Scanner Line */
+.hero-laser-scanner {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), #ffffff, transparent);
+  box-shadow: 0 0 15px var(--primary), 0 0 25px var(--secondary);
+  z-index: 4;
+  pointer-events: none;
+  animation: laserScan 4.5s linear infinite;
+}
+
+@keyframes laserScan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 96%; opacity: 0; }
+}
+
+/* Live Rec Badge */
+.hero-live-rec {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 4;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rec-red-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseDot 1.2s infinite;
+}
+
+/* Video Play Button Overlay */
+.hero-video-play-btn {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.play-pulse-ring, .play-pulse-ring-2 {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  opacity: 0.6;
+  animation: playRingPulse 2.5s ease-out infinite;
+}
+
+.play-pulse-ring-2 {
+  animation-delay: 1.2s;
+}
+
+@keyframes playRingPulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.play-icon-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 8px 25px var(--primary-glow);
+  transition: var(--transition);
+}
+
+.hero-video-play-btn:hover .play-icon-box {
+  transform: scale(1.15);
+  box-shadow: 0 12px 35px var(--primary-glow);
+}
+
+.video-play-text {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  background: rgba(15, 23, 42, 0.6);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(8px);
+}
+
 .hero-img-card img {
   width: 100%;
   height: 460px;
