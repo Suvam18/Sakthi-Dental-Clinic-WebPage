@@ -106,6 +106,16 @@ function initAppointmentModal() {
         if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Appointment Request';
       }
 
+      // Smooth scroll down to #contact section if clicked from empty state or booking section
+      if (btn.classList.contains('btn-empty-book') || btn.closest('#my-appointments')) {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          const yOffset = -90;
+          const y = contactSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
