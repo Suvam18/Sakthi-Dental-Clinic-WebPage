@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initActiveNavLink();
   initScrollAnimations();
+  renderAppointments();
 });
 
 /* ==========================================================================
@@ -112,20 +113,161 @@ function initAppointmentModal() {
     appointmentForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      const name = document.getElementById('aptName').value;
-      const phone = document.getElementById('aptPhone').value;
+      const name = document.getElementById('aptName').value.trim();
+      const phone = document.getElementById('aptPhone').value.trim();
       const date = document.getElementById('aptDate').value;
       const doctor = document.getElementById('aptDoctor').value;
+      const service = document.getElementById('aptService').value;
 
       if (!name || !phone || !date) {
         showToast('Please fill in all required fields.', 'error');
         return;
       }
 
+      const newBooking = {
+        id: 'APT-' + Math.floor(100000 + Math.random() * 900000),
+        name: name,
+        phone: phone,
+        date: date,
+        doctor: doctor,
+        service: service,
+        status: 'Confirmed',
+        bookedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+
+      saveAndRenderAppointment(newBooking);
+
       closeModal();
       appointmentForm.reset();
-      showToast(`Appointment Request Received! We will call you at ${phone} to confirm.`, 'success');
+      showToast(`Appointment Confirmed for ${name}!`, 'success');
+
+      const myAptSection = document.getElementById('my-appointments');
+      if (myAptSection) {
+        myAptSection.scrollIntoView({ behavior: 'smooth' });
+      }
     });
+  }
+}
+
+/* ==========================================================================
+   3b. Appointments LocalStorage & Dashboard Management
+   ========================================================================== */
+function getAppointments() {
+  const stored = localStorage.getItem('sakthi_appointments');
+  if (stored) {
+    return JSON.parse(stored);
+  }
+  const sample = [
+    {
+      id: 'APT-849201',
+      name: 'Sample Patient',
+      phone: '+91 9862890897',
+      date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      doctor: 'Dr. Anupriya (Founder)',
+      service: 'General Dental Consultation',
+      status: 'Confirmed',
+      bookedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    }
+  ];
+  localStorage.setItem('sakthi_appointments', JSON.stringify(sample));
+  return sample;
+}
+
+function saveAndRenderAppointment(newApt) {
+  const appointments = getAppointments();
+  appointments.unshift(newApt);
+  localStorage.setItem('sakthi_appointments', JSON.stringify(appointments));
+  renderAppointments();
+}
+
+function renderAppointments() {
+  const container = document.getElementById('myAppointmentsContainer');
+  if (!container) return;
+
+  const appointments = getAppointments();
+  const badgeCount = document.getElementById('aptBadgeCount');
+  if (badgeCount) badgeCount.textContent = appointments.length;
+
+  if (appointments.length === 0) {
+    container.innerHTML = `
+      <div class="glass-card" style="text-align: center; padding: 4rem 2rem; grid-column: 1 / -1;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
+          <i class="fa-solid fa-calendar-xmark"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No Appointments Booked Yet</h3>
+        <p style="color: var(--text-muted); max-width: 460px; margin: 0 auto 1.5rem auto;">You haven't scheduled any consultations yet. Click the button below to book an appointment with our specialist doctors!</p>
+        <button class="btn btn-primary trigger-appointment">
+          <i class="fa-solid fa-calendar-plus"></i> Book Your First Appointment
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = appointments.map(apt => `
+    <div class="glass-card appointment-booking-card reveal-on-scroll is-visible" data-apt-id="${apt.id}">
+      <div class="apt-card-header">
+        <div class="apt-id-pill"><i class="fa-solid fa-ticket"></i> ${apt.id}</div>
+        <div class="apt-status-badge ${apt.status === 'Confirmed' ? 'status-confirmed' : 'status-pending'}">
+          <span class="status-dot"></span> ${apt.status}
+        </div>
+      </div>
+
+      <div class="apt-card-body">
+        <h3 class="apt-service-title"><i class="fa-solid fa-stethoscope" style="color: var(--primary);"></i> ${apt.service}</h3>
+        
+        <div class="apt-details-grid">
+          <div class="apt-detail-item">
+            <i class="fa-solid fa-user-doctor"></i>
+            <div>
+              <span class="detail-label">Assigned Specialist</span>
+              <strong>${apt.doctor}</strong>
+            </div>
+          </div>
+
+          <div class="apt-detail-item">
+            <i class="fa-solid fa-calendar-day"></i>
+            <div>
+              <span class="detail-label">Scheduled Date</span>
+              <strong>${apt.date}</strong>
+            </div>
+          </div>
+
+          <div class="apt-detail-item">
+            <i class="fa-solid fa-user"></i>
+            <div>
+              <span class="detail-label">Patient Name</span>
+              <strong>${apt.name}</strong>
+            </div>
+          </div>
+
+          <div class="apt-detail-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <span class="detail-label">Contact Mobile</span>
+              <strong>${apt.phone}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="apt-card-footer">
+        <span class="booked-on-text"><i class="fa-solid fa-clock"></i> Booked on ${apt.bookedAt}</span>
+        <button class="btn btn-secondary cancel-apt-btn" onclick="cancelAppointment('${apt.id}')" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+          <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> Cancel Booking
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function cancelAppointment(id) {
+  if (confirm(`Are you sure you want to cancel appointment ${id}?`)) {
+    let appointments = getAppointments();
+    appointments = appointments.filter(a => a.id !== id);
+    localStorage.setItem('sakthi_appointments', JSON.stringify(appointments));
+    renderAppointments();
+    showToast(`Appointment ${id} has been cancelled.`, 'info');
   }
 }
 
