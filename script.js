@@ -162,10 +162,14 @@ function initAppointmentModal() {
 
       closeModal();
 
-      const myAptSection = document.getElementById('my-appointments');
-      if (myAptSection) {
-        myAptSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      setTimeout(() => {
+        const myAptSection = document.getElementById('my-appointments');
+        if (myAptSection) {
+          const yOffset = -90; // Header offset
+          const y = myAptSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 150);
     });
   }
 }
