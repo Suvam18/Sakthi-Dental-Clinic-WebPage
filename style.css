@@ -1786,3 +1786,30 @@ textarea.form-control {
   background: rgba(239, 68, 68, 0.15) !important;
   border-color: rgba(239, 68, 68, 0.4) !important;
 }
+
+.edit-apt-btn:hover {
+  background: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+}
+
+/* Red Alert Badge Counter */
+.red-alert-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 2px 7px;
+  font-size: 0.72rem;
+  margin-left: 6px;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+  animation: pulseAlert 2s infinite;
+}
+
+@keyframes pulseAlert {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}

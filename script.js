@@ -80,6 +80,8 @@ function initMobileDrawer() {
   overlay.addEventListener('click', closeDrawer);
 }
 
+let currentEditingAptId = null;
+
 /* ==========================================================================
    3. Appointment Booking Modal
    ========================================================================== */
@@ -88,12 +90,22 @@ function initAppointmentModal() {
   const ctaButtons = document.querySelectorAll('.trigger-appointment');
   const closeModalBtn = document.querySelector('.close-modal-btn');
   const appointmentForm = document.getElementById('appointmentForm');
+  const modalTitle = modalOverlay?.querySelector('h2');
+  const submitBtn = appointmentForm?.querySelector('button[type="submit"]');
 
   if (!modalOverlay) return;
 
   ctaButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      
+      // If clicking trigger for fresh booking, reset editing state
+      if (!currentEditingAptId && appointmentForm) {
+        appointmentForm.reset();
+        if (modalTitle) modalTitle.textContent = 'Fix an Appointment';
+        if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Appointment Request';
+      }
+
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
@@ -102,6 +114,10 @@ function initAppointmentModal() {
   function closeModal() {
     modalOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    currentEditingAptId = null;
+    if (appointmentForm) appointmentForm.reset();
+    if (modalTitle) modalTitle.textContent = 'Fix an Appointment';
+    if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Appointment Request';
   }
 
   if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
@@ -124,22 +140,27 @@ function initAppointmentModal() {
         return;
       }
 
-      const newBooking = {
-        id: 'APT-' + Math.floor(100000 + Math.random() * 900000),
-        name: name,
-        phone: phone,
-        date: date,
-        doctor: doctor,
-        service: service,
-        status: 'Confirmed',
-        bookedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      };
-
-      saveAndRenderAppointment(newBooking);
+      if (currentEditingAptId) {
+        // Editing existing appointment
+        updateAppointmentRecord(currentEditingAptId, { name, phone, date, doctor, service });
+        showToast(`Appointment ${currentEditingAptId} updated successfully!`, 'success');
+      } else {
+        // Creating new appointment
+        const newBooking = {
+          id: 'APT-' + Math.floor(100000 + Math.random() * 900000),
+          name: name,
+          phone: phone,
+          date: date,
+          doctor: doctor,
+          service: service,
+          status: 'Confirmed',
+          bookedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        };
+        saveAndRenderAppointment(newBooking);
+        showToast(`Appointment Confirmed for ${name}!`, 'success');
+      }
 
       closeModal();
-      appointmentForm.reset();
-      showToast(`Appointment Confirmed for ${name}!`, 'success');
 
       const myAptSection = document.getElementById('my-appointments');
       if (myAptSection) {
@@ -180,13 +201,33 @@ function saveAndRenderAppointment(newApt) {
   renderAppointments();
 }
 
+function updateAppointmentRecord(id, updatedFields) {
+  let appointments = getAppointments();
+  const index = appointments.findIndex(a => a.id === id);
+  if (index !== -1) {
+    appointments[index] = { ...appointments[index], ...updatedFields };
+    localStorage.setItem('sakthi_appointments', JSON.stringify(appointments));
+    renderAppointments();
+  }
+}
+
 function renderAppointments() {
   const container = document.getElementById('myAppointmentsContainer');
-  if (!container) return;
-
+  const badgeCounts = document.querySelectorAll('.apt-badge-count');
   const appointments = getAppointments();
-  const badgeCount = document.getElementById('aptBadgeCount');
-  if (badgeCount) badgeCount.textContent = appointments.length;
+
+  // Red Alert Badge Counter logic: HIDE if 0, SHOW red alert badge if > 0
+  badgeCounts.forEach(badge => {
+    if (appointments.length === 0) {
+      badge.style.display = 'none';
+      badge.textContent = '';
+    } else {
+      badge.style.display = 'inline-flex';
+      badge.textContent = appointments.length;
+    }
+  });
+
+  if (!container) return;
 
   if (appointments.length === 0) {
     container.innerHTML = `
@@ -253,21 +294,53 @@ function renderAppointments() {
 
       <div class="apt-card-footer">
         <span class="booked-on-text"><i class="fa-solid fa-clock"></i> Booked on ${apt.bookedAt}</span>
-        <button class="btn btn-secondary cancel-apt-btn" onclick="cancelAppointment('${apt.id}')" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
-          <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> Cancel Booking
-        </button>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary edit-apt-btn" onclick="editAppointment('${apt.id}')" style="font-size: 0.85rem; padding: 0.4rem 0.85rem;">
+            <i class="fa-solid fa-pen-to-square" style="color: var(--primary);"></i> Edit
+          </button>
+          <button class="btn btn-secondary cancel-apt-btn" onclick="deleteAppointment('${apt.id}')" style="font-size: 0.85rem; padding: 0.4rem 0.85rem;">
+            <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> Delete
+          </button>
+        </div>
       </div>
     </div>
   `).join('');
 }
 
-function cancelAppointment(id) {
-  if (confirm(`Are you sure you want to cancel appointment ${id}?`)) {
+function editAppointment(id) {
+  const appointments = getAppointments();
+  const apt = appointments.find(a => a.id === id);
+  if (!apt) return;
+
+  currentEditingAptId = id;
+
+  const modalOverlay = document.getElementById('appointmentModal');
+  const modalTitle = modalOverlay?.querySelector('h2');
+  const appointmentForm = document.getElementById('appointmentForm');
+  const submitBtn = appointmentForm?.querySelector('button[type="submit"]');
+
+  if (document.getElementById('aptName')) document.getElementById('aptName').value = apt.name;
+  if (document.getElementById('aptPhone')) document.getElementById('aptPhone').value = apt.phone;
+  if (document.getElementById('aptDate')) document.getElementById('aptDate').value = apt.date;
+  if (document.getElementById('aptDoctor')) document.getElementById('aptDoctor').value = apt.doctor;
+  if (document.getElementById('aptService')) document.getElementById('aptService').value = apt.service;
+
+  if (modalTitle) modalTitle.textContent = `Edit Appointment (${id})`;
+  if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Update Appointment';
+
+  if (modalOverlay) {
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function deleteAppointment(id) {
+  if (confirm(`Are you sure you want to delete appointment ${id}?`)) {
     let appointments = getAppointments();
     appointments = appointments.filter(a => a.id !== id);
     localStorage.setItem('sakthi_appointments', JSON.stringify(appointments));
     renderAppointments();
-    showToast(`Appointment ${id} has been cancelled.`, 'info');
+    showToast(`Appointment ${id} has been deleted.`, 'info');
   }
 }
 
