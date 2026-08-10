@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 function initThemeToggle() {
   const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
-  const savedTheme = localStorage.getItem('sakthi_theme') || 'light';
+  const savedTheme = localStorage.getItem('sakthi_theme') || 'dark';
   
-  if (savedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    updateThemeIcons(true);
-  } else {
+  if (savedTheme === 'light') {
     document.documentElement.setAttribute('data-theme', 'light');
     updateThemeIcons(false);
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    updateThemeIcons(true);
   }
 
   themeToggleBtns.forEach(btn => {
