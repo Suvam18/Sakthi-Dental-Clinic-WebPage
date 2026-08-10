@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordions();
   initContactForm();
   initActiveNavLink();
+  initScrollAnimations();
 });
 
 /* ==========================================================================
@@ -299,4 +300,30 @@ function showToast(message, type = 'success') {
     toast.style.transition = 'all 0.3s ease';
     setTimeout(() => toast.remove(), 300);
   }, 4000);
+}
+
+/* ==========================================================================
+   9. Scroll Reveal Animations (Intersection Observer)
+   ========================================================================== */
+function initScrollAnimations() {
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  
+  if (!revealElements.length) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  revealElements.forEach(el => observer.observe(el));
 }
