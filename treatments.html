@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive Dental Treatments & Services | Sakthi Dental Clinic Hosur</title>
+  <meta name="description" content="Explore Sakthi Dental Clinic's complete range of treatments including LASER gum care, braces, clear aligners, implants, root canals, dentures, pediatric care, and whitening in Hosur.">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Animated Background -->
+  <div class="ambient-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
+        <div class="logo-text">Sakthi <span>Dental</span></div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="treatments.html" class="nav-link active">Treatments</a>
+        <a href="faqs.html" class="nav-link">FAQs</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="btn btn-primary trigger-appointment">
+          <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
+        </button>
+        <button class="hamburger" aria-label="Open Navigation Drawer">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer-overlay"></div>
+  <div class="mobile-drawer">
+    <div>
+      <div class="drawer-header">
+        <div class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
+          <div class="logo-text">Sakthi <span>Dental</span></div>
+        </div>
+        <button class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mobile-nav-list">
+        <a href="index.html" class="mobile-nav-link"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="about.html" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> About Us</a>
+        <a href="treatments.html" class="mobile-nav-link active"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
+        <a href="faqs.html" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+        <a href="contact.html" class="mobile-nav-link"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+      </div>
+    </div>
+    <div style="margin-top: 2rem;">
+      <button class="btn btn-primary trigger-appointment" style="width: 100%;">
+        <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
+      </button>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <section class="page-offset section" style="padding-bottom: 2rem;">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 2.5rem;">
+        <div class="badge"><i class="fa-solid fa-notes-medical"></i> Specialized Services</div>
+        <h1 class="section-title">Our Complete Dental Treatments</h1>
+        <p class="section-subtitle">Advanced, compassionate dental care tailored to bring health and confidence to every smile.</p>
+      </div>
+
+      <!-- Category Filter Bar & Live Search -->
+      <div class="filter-bar">
+        <div class="category-tabs">
+          <button class="tab-btn active" data-category="all">All Treatments</button>
+          <button class="tab-btn" data-category="gum-laser">Gum & Laser Care</button>
+          <button class="tab-btn" data-category="restorative">Restorative & Dentures</button>
+          <button class="tab-btn" data-category="cosmetic">Cosmetic & Whitening</button>
+          <button class="tab-btn" data-category="orthodontics">Orthodontics & Aligners</button>
+          <button class="tab-btn" data-category="surgical">Surgical & Implants</button>
+          <button class="tab-btn" data-category="pediatric">Pediatric Care</button>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="treatmentSearch" placeholder="Search treatments (e.g. Braces, Implants)...">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatments Grid Section -->
+  <section class="section" style="padding-top: 1rem;">
+    <div class="container">
+      <div class="treatments-grid" id="treatmentsContainer">
+        
+        <!-- 1. Teeth Cleaning & Scaling -->
+        <div class="treatment-card-wrapper" data-category="gum-laser">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3>Teeth Cleaning & Scaling</h3>
+              </div>
+              <p>At Sakthi Dental Clinic, we offer advanced, non-surgical gum care using modern LASER technology for precise and effective treatment. Whether you're dealing with early signs of gum disease or a more advanced condition, our skilled professionals ensure thorough cleaning to restore gum health. Scaling is advised for moderate cases to remove plaque and tartar buildup, while more severe periodontal issues may require deep cleaning procedures like root planing, supported by LASER treatment. This approach not only treats existing problems but also serves as a crucial preparatory step before any surgical intervention.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 2. Tooth Filling -->
+        <div class="treatment-card-wrapper" data-category="restorative">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-fill-drip"></i></div>
+                <h3>Tooth Filling</h3>
+              </div>
+              <p>At Sakthi Dental Clinic, we specialize in restoring smiles through expert tooth filling services. Whether tooth damage is caused by cavities, trauma, or wear from habits like teeth grinding or nail-biting, our team uses high-quality materials and the latest techniques to repair and protect your teeth. We focus on sealing gaps effectively to prevent future decay and ensure long-term oral health. Our goal is to preserve your natural tooth structure while enhancing both function and appearance, giving you a healthier, more confident smile.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 3. Tooth Extraction -->
+        <div class="treatment-card-wrapper" data-category="surgical">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-tooth"></i></div>
+                <h3>Tooth Extraction</h3>
+              </div>
+              <p>When a tooth is beyond repair, Sakthi Dental Clinic ensures that the extraction process is handled with the utmost care and comfort. Our experienced dental team evaluates every option before recommending removal, but when necessary, we perform extractions using gentle techniques to minimize discomfort. We prioritize creating a stress-free environment, explaining each step to our patients. Your health and comfort are always our focus, and we aim to make tooth extraction as smooth and painless as possible, supporting you through every stage of recovery.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 4. Artificial Complete Denture -->
+        <div class="treatment-card-wrapper" data-category="restorative">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-teeth"></i></div>
+                <h3>Artificial Complete Denture</h3>
+              </div>
+              <p>At Sakthi Dental Clinic, we craft high-quality complete dentures to restore both function and aesthetics for patients with missing teeth. Our dentures are designed with precision using durable materials, providing a natural look and a comfortable fit. Whether you're replacing several teeth or a full arch, our customized solutions help you regain confidence and improve daily functionality. We focus on delivering practical, long-lasting dentures that enhance your smile and overall oral health.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 5. Dental Implants -->
+        <div class="treatment-card-wrapper" data-category="surgical">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-teeth-open"></i></div>
+                <h3>Dental Implants</h3>
+              </div>
+              <p>Dental implants at Sakthi Dental Clinic offer a modern and reliable solution for replacing missing teeth. Using biocompatible materials like titanium, we securely place artificial roots into the jawbone, creating a stable foundation for prosthetic teeth. Our advanced implant procedures restore both the appearance and strength of your smile, ensuring a natural feel and long-lasting results. Trust our experienced team to help you regain optimal oral function and confidence with cutting-edge implant technology.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 6. Laser Dentistry -->
+        <div class="treatment-card-wrapper" data-category="gum-laser">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Laser Dentistry</h3>
+              </div>
+              <p>At Sakthi Dental Clinic, we utilize advanced laser technology to perform precise, minimally invasive dental treatments. From soft tissue surgeries to gum care, laser procedures offer faster healing, reduced discomfort, and enhanced accuracy. Whether you're undergoing gum reshaping or other corrective treatments, our state-of-the-art laser equipment ensures efficient, safe, and comfortable care tailored to your needs.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 7. Root Canal Therapy -->
+        <div class="treatment-card-wrapper" data-category="restorative">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-syringe"></i></div>
+                <h3>Root Canal Therapy</h3>
+              </div>
+              <p>When tooth infections reach deep into the pulp, root canal treatment becomes essential. At Sakthi Dental Clinic, we carefully remove infected tissue, clean the area thoroughly, and seal the tooth to prevent future issues. Our focus is on relieving pain, eliminating infection, and preserving your natural tooth structure for long-term dental health.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 8. Wisdom Tooth Extraction -->
+        <div class="treatment-card-wrapper" data-category="surgical">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-circle-minus"></i></div>
+                <h3>Wisdom Tooth Extraction</h3>
+              </div>
+              <p>If impacted or problematic, wisdom teeth can cause discomfort and oral health risks. At Sakthi Dental Clinic, we specialize in gentle and effective wisdom tooth removal, using modern techniques and anesthesia options to ensure a smooth, pain-free experience. We also provide comprehensive post-operative care to support quick recovery and lasting comfort.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 9. Fixed Partial Denture (Bridge) -->
+        <div class="treatment-card-wrapper" data-category="restorative">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-link"></i></div>
+                <h3>Fixed Partial Denture (Bridge)</h3>
+              </div>
+              <p>Our expertly crafted fixed partial dentures offer a secure solution for replacing missing teeth by anchoring prosthetic teeth to adjacent natural teeth or implants. At Sakthi Dental Clinic, we focus on custom-made dental bridges that restore your smile’s appearance while improving chewing function and maintaining oral stability.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 10. Teeth Whitening (Bleaching) -->
+        <div class="treatment-card-wrapper" data-category="cosmetic">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-sparkles"></i></div>
+                <h3>Teeth Whitening (Bleaching)</h3>
+              </div>
+              <p>Brighten your smile with professional teeth whitening services at Sakthi Dental Clinic. We treat both external and internal stains, using safe bleaching agents to lighten your teeth by several shades. Whether addressing discoloration from food, beverages, or age, our whitening treatments restore your smile's natural radiance and boost your confidence.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 11. Veneers -->
+        <div class="treatment-card-wrapper" data-category="cosmetic">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-gem"></i></div>
+                <h3>Veneers</h3>
+              </div>
+              <p>Transform your smile with dental veneers, thin, custom-made shells designed to cover imperfections such as chips, gaps, or discoloration. At Sakthi Dental Clinic, we offer high-quality veneers that enhance your teeth’s appearance, giving you a flawless and natural-looking smile.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 12. Pediatric Dentistry -->
+        <div class="treatment-card-wrapper" data-category="pediatric">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-child"></i></div>
+                <h3>Pediatric Dentistry</h3>
+              </div>
+              <p>At Sakthi Dental Clinic, we provide gentle and comprehensive dental care for children. Our friendly team creates a welcoming environment, ensuring young patients feel safe and comfortable during their visits. From routine check-ups to preventive treatments, we focus on building healthy dental habits for a lifetime of bright smiles.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 13. Flap Surgery -->
+        <div class="treatment-card-wrapper" data-category="gum-laser">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-hand-holding-medical"></i></div>
+                <h3>Flap Surgery</h3>
+              </div>
+              <p>For advanced gum disease, flap surgery may be necessary. Our skilled team at Sakthi Dental Clinic performs this procedure by lifting the gum tissue to remove deep-seated plaque and bacteria, then repositioning it for optimal healing. This treatment helps prevent further periodontal issues and supports gum health.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 14. Orthodontic Braces -->
+        <div class="treatment-card-wrapper" data-category="orthodontics">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-grip-lines"></i></div>
+                <h3>Orthodontic Braces</h3>
+              </div>
+              <p>Correct misaligned teeth with customized orthodontic treatments at Sakthi Dental Clinic. We offer a variety of braces, metal, ceramic, or lingual, to suit your preferences. Our goal is to achieve improved alignment, better bite function, and a confident, harmonious smile.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+        <!-- 15. Clear Aligners -->
+        <div class="treatment-card-wrapper" data-category="orthodontics">
+          <div class="glass-card treatment-card">
+            <div>
+              <div class="treatment-header">
+                <div class="treatment-icon-wrapper"><i class="fa-solid fa-eye-slash"></i></div>
+                <h3>Clear Aligners</h3>
+              </div>
+              <p>For a discreet alternative to traditional braces, Sakthi Dental Clinic offers clear aligners. These transparent, removable trays gradually shift your teeth into perfect alignment, providing comfort and flexibility throughout your orthodontic journey.</p>
+            </div>
+            <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;">Book Consultation</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Appointment Modal -->
+  <div class="modal-overlay" id="appointmentModal">
+    <div class="modal-card">
+      <button class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div class="badge"><i class="fa-solid fa-calendar-check"></i> Sakthi Dental Clinic</div>
+        <h2 style="font-size: 1.8rem;">Fix an Appointment</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Select your preferred date & time. We will get in touch to confirm!</p>
+      </div>
+
+      <form id="appointmentForm">
+        <div class="form-group">
+          <label for="aptName">Full Name *</label>
+          <input type="text" id="aptName" class="form-control" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="aptPhone">Phone Number *</label>
+          <input type="tel" id="aptPhone" class="form-control" placeholder="Enter your 10-digit mobile number" required>
+        </div>
+
+        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label for="aptDate">Preferred Date *</label>
+            <input type="date" id="aptDate" class="form-control" required>
+          </div>
+          <div>
+            <label for="aptDoctor">Doctor Preference</label>
+            <select id="aptDoctor" class="form-control">
+              <option value="Dr. Anupriya">Dr. Anupriya (Founder)</option>
+              <option value="Dr. Ananya Iyer">Dr. Ananya Iyer</option>
+              <option value="Dr. Meera Subramanian">Dr. Meera Subramanian</option>
+              <option value="Dr. Arvind Kumar">Dr. Arvind Kumar</option>
+              <option value="Dr. Sneha N">Dr. Sneha N</option>
+              <option value="Dr. Srinivas Rohit">Dr. Srinivas Rohit</option>
+              <option value="Dr. Balu">Dr. Balu (Laser Specialist)</option>
+              <option value="Dr. Vikram Raj">Dr. Vikram Raj Kishore</option>
+              <option value="Dr. Ajay Jumar">Dr. Ajay Jumar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="aptService">Service / Treatment Required</label>
+          <select id="aptService" class="form-control">
+            <option value="General Consultation">General Consultation</option>
+            <option value="Teeth Cleaning">Teeth Cleaning & Scaling</option>
+            <option value="Orthodontic Braces">Braces & Aligners</option>
+            <option value="Tooth Extraction">Tooth Extraction</option>
+            <option value="Dental Implants">Dental Implants</option>
+            <option value="Laser Care">Laser Dentistry</option>
+            <option value="Pediatric Care">Pediatric Care</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          <i class="fa-solid fa-paper-plane"></i> Submit Appointment Request
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
+            <div class="logo-text">Sakthi <span>Dental</span></div>
+          </a>
+          <p>Sakthi Dental Clinic is Hosur's premier dental clinic, specializing in warm, modern, compassionate care for women, children, and families.</p>
+          <div class="social-links">
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="treatments.html">Treatments</a>
+            <a href="faqs.html">FAQs</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h4>Key Treatments</h4>
+          <div class="footer-links">
+            <a href="treatments.html">Teeth Cleaning & Scaling</a>
+            <a href="treatments.html">Orthodontic Braces & Aligners</a>
+            <a href="treatments.html">Dental Implants</a>
+            <a href="treatments.html">Tooth Extraction</a>
+            <a href="treatments.html">Laser Dentistry</a>
+            <a href="treatments.html">Pediatric Dentistry</a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h4>Contact Details</h4>
+          <div class="footer-links" style="gap: 1rem;">
+            <p><i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 8px;"></i> B2/8, SBM Layout, Anthivadi, Hosur, Tamil Nadu 635109</p>
+            <p><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 8px;"></i> +91 9862890897 / +91 9363298118</p>
+            <p><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 8px;"></i> info@sakthidentalclinic.in</p>
+            <p><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 8px;"></i> Sun - Sat: 9:00 AM - 7:00 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Sakthi Dental Clinic. All Rights Reserved. Designed for ShadowFox Client Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
