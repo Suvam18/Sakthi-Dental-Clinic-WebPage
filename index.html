@@ -79,18 +79,31 @@
 
   <!-- SECTION 1: HERO & HOME -->
   <section id="home" class="hero">
+    <div class="hero-particle particle-1"></div>
+    <div class="hero-particle particle-2"></div>
+    <div class="hero-particle particle-3"></div>
+
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <div class="badge">
-            <i class="fa-solid fa-heart-pulse"></i> Hosur's Most Trusted Dental Care
+          <div class="hero-live-pill">
+            <span class="pulse-dot"></span> Hosur's Premier Dental Clinic • Open Daily 9 AM - 9 PM
           </div>
-          <h1>Specialized Dental Care for Women, Children & Families</h1>
+          <h1 class="hero-title-animated">
+            Specialized Dental Care for <span class="gradient-text-animated">Women, Children & Families</span>
+          </h1>
           <p class="hero-subtext">
             Experience compassionate, expert-led dental services tailored to your needs, all in a modern and welcoming environment.
           </p>
+
+          <div class="hero-feature-tags">
+            <span class="tag-pill"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Painless LASER Tech</span>
+            <span class="tag-pill"><i class="fa-solid fa-tooth" style="color: var(--secondary);"></i> 15+ Advanced Treatments</span>
+            <span class="tag-pill"><i class="fa-solid fa-user-doctor" style="color: var(--accent-pink);"></i> 9 Specialist Doctors</span>
+          </div>
+
           <div class="hero-ctas">
-            <button class="btn btn-primary trigger-appointment">
+            <button class="btn btn-primary btn-glow-primary trigger-appointment">
               <i class="fa-solid fa-calendar-plus"></i> Fix an Appointment
             </button>
             <a href="#contact" class="btn btn-secondary">
@@ -114,17 +127,20 @@
           </div>
         </div>
 
-        <div class="hero-image-wrapper">
-          <div class="hero-glow-ring"></div>
+        <div class="hero-image-wrapper floating-showcase">
+          <div class="hero-ring-1"></div>
+          <div class="hero-ring-2"></div>
+          
           <div class="hero-img-card">
             <img src="./assets/images/hero.jpg" alt="Sakthi Dental Clinic Doctor caring for patient">
-          </div>
-
-          <div class="floating-badge badge-1">
-            <div class="badge-icon"><i class="fa-solid fa-shield-heart"></i></div>
-            <div class="badge-info">
-              <h4>100% Gentle Care</h4>
-              <p>Painless Dental Procedures</p>
+            
+            <div class="hero-card-overlay-bar">
+              <div class="status-indicator">
+                <span class="green-dot"></span> <strong>Appointments Open Today</strong>
+              </div>
+              <div class="rating-badge">
+                <i class="fa-solid fa-star"></i> 4.9/5 Rating
+              </div>
             </div>
           </div>
         </div>
