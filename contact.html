@@ -102,7 +102,7 @@
     </div>
   </header>
 
-  <!-- Mobile Drawer -->
+  <!-- Mobile Navigation Drawer -->
   <div class="drawer-overlay"></div>
   <div class="mobile-drawer">
     <div>
@@ -111,53 +111,60 @@
           <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
           <div class="logo-text">Sakthi <span>Dental</span></div>
         </div>
-        <button class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close-drawer-btn" aria-label="Close Drawer"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- GUEST MOBILE NAV LIST -->
+      <!-- GUEST MOBILE NAV LIST (Before Login) -->
       <div class="mobile-nav-list mobile-nav-guest" id="mobileNavGuest">
-        <a href="index.html" class="mobile-nav-link"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="about.html" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> About Us</a>
+        <a href="index.html#home" class="mobile-nav-link"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="about.html" class="mobile-nav-link"><i class="fa-solid fa-info-circle"></i> About Us</a>
         <a href="treatments.html" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
+        <a href="index.html#doctors" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> Our Team</a>
         <a href="faqs.html" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQs</a>
-        <a href="contact.html" class="mobile-nav-link active"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+        <a href="contact.html" class="mobile-nav-link active"><i class="fa-solid fa-paper-plane"></i> Contact Us</a>
       </div>
 
-      <!-- AUTHENTICATED MOBILE NAV LIST -->
+      <!-- AUTHENTICATED MOBILE NAV LIST (After Login) -->
       <div class="mobile-nav-list mobile-nav-user" id="mobileNavUser" style="display: none;">
-        <a href="index.html#my-appointments" class="mobile-nav-link"><i class="fa-solid fa-calendar-check"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
-        <a href="index.html#appointment" class="mobile-nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus"></i> Fix an Appointment</a>
-        <a href="about.html#doctors" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> Our Team</a>
+        <a href="index.html#my-appointments" class="mobile-nav-link"><i class="fa-solid fa-calendar-check"></i> My Bookings</a>
+        <a href="#appointment" class="mobile-nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus"></i> Fix an Appointment</a>
+        <a href="index.html#doctors" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> Our Team</a>
         <a href="treatments.html" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
+        <a href="about.html" class="mobile-nav-link"><i class="fa-solid fa-info-circle"></i> About Clinic</a>
+        <a href="faqs.html" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+        <a href="contact.html" class="mobile-nav-link active"><i class="fa-solid fa-paper-plane"></i> Contact Us</a>
       </div>
     </div>
 
-    <div style="margin-top: 2rem;" class="mobile-drawer-footer">
+    <div style="margin-top: 1.5rem;" class="mobile-drawer-footer">
       <div class="mobile-drawer-auth" id="mobileDrawerAuth">
-        <!-- Guest Login Button -->
+        <!-- Guest Login Button (Before Login) -->
         <div class="mobile-guest-auth" id="mobileGuestAuth">
-          <button class="btn btn-primary-auth open-auth-btn" data-auth-mode="signin" style="width: 100%; display: inline-flex; justify-content: center; align-items: center; padding: 0.75rem 1rem; font-weight: 700;">
-            Login
+          <button class="btn btn-primary-auth open-auth-btn" data-auth-mode="signin" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 0.75rem 1rem; font-weight: 700;">
+            <i class="fa-solid fa-right-to-bracket"></i> Login / Sign Up
           </button>
         </div>
 
-        <!-- Authenticated Mobile User Card & Actions -->
+        <!-- Authenticated Mobile User Card & Actions (After Login) -->
         <div class="mobile-user-auth" id="mobileUserAuth" style="display: none;">
-          <div class="mobile-user-card" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-card); border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-color);">
+          <div class="mobile-user-card open-profile-modal-btn">
             <div class="user-avatar-circle" id="mobileUserAvatar">JD</div>
-            <div>
-              <div class="user-nav-name" id="mobileUserName" style="font-weight: 700; color: var(--text-color);">Jane Doe</div>
-              <div class="user-nav-role-badge" id="mobileUserRole" style="font-size: 0.75rem; color: var(--primary);">Patient</div>
+            <div style="flex: 1;">
+              <div class="user-nav-name" id="mobileUserName" style="font-weight: 700; color: #ffffff;">Jane Doe</div>
+              <div class="user-nav-role-badge" id="mobileUserRole" style="font-size: 0.75rem; color: var(--primary);">Patient Profile</div>
             </div>
+            <i class="fa-solid fa-chevron-right" style="color: rgba(255,255,255,0.4); font-size: 0.85rem;"></i>
           </div>
-          <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-bottom: 0.5rem;">
-            <i class="fa-solid fa-calendar-plus"></i> Fix an Appointment
-          </button>
-          <button class="btn btn-outline-auth logout-btn" style="width: 100%;">
-            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          <button class="btn btn-outline-auth logout-btn" style="width: 100%; margin-top: 6px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
           </button>
         </div>
       </div>
+
+      <!-- Quick Emergency Call Link inside Mobile Drawer -->
+      <a href="tel:04344222333" class="mobile-drawer-call-btn">
+        <i class="fa-solid fa-phone"></i> Call Emergency: 04344-222333
+      </a>
     </div>
   </div>
 

@@ -79,6 +79,11 @@ function initMobileDrawer() {
   hamburger.addEventListener('click', openDrawer);
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
+
+  const drawerItems = drawer.querySelectorAll('.mobile-nav-link, .btn, .mobile-user-card');
+  drawerItems.forEach(item => {
+    item.addEventListener('click', closeDrawer);
+  });
 }
 
 let currentEditingAptId = null;

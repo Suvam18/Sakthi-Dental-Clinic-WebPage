@@ -1638,12 +1638,14 @@ textarea.form-control {
     grid-template-columns: 1fr;
   }
 
-  .nav-menu {
-    display: none;
+  .nav-menu, #guestNavMenu, #userNavMenu {
+    display: none !important;
   }
 
   .hamburger {
-    display: block;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -3255,4 +3257,45 @@ textarea.form-control {
     height: 46px;
     font-size: 0.95rem;
   }
+}
+
+/* Mobile Drawer & Call Button Styling */
+.mobile-user-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mobile-user-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary);
+}
+
+.mobile-drawer-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 0.7rem 1rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 12px;
+  color: #10b981;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.mobile-drawer-call-btn:hover {
+  background: #10b981;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
 }
