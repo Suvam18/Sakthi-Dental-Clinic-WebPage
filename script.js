@@ -845,7 +845,7 @@ function switchAuthTab(mode) {
   const authVisualTitle = document.getElementById('authVisualTitle');
   const authVisualSubtitle = document.getElementById('authVisualSubtitle');
   const authCardBody = document.querySelector('.auth-card-body');
-  const authVisualBg = document.getElementById('authVisualBg');
+  const authVisualImg = document.getElementById('authVisualImg');
 
   if (mode === 'signin') {
     if (tabBtnSignIn) tabBtnSignIn.classList.add('active');
@@ -854,7 +854,7 @@ function switchAuthTab(mode) {
     if (signUpForm) { signUpForm.style.display = 'none'; signUpForm.classList.remove('active'); }
 
     if (authCardBody) authCardBody.classList.remove('reverse-layout');
-    if (authVisualBg) authVisualBg.style.backgroundImage = "url('./assets/images/auth_banner.jpg')";
+    if (authVisualImg) authVisualImg.src = './assets/images/auth_banner.jpg';
 
     if (authVisualTitle) authVisualTitle.textContent = 'Painless Dental Care. Lifelong Healthy Smiles.';
     if (authVisualSubtitle) authVisualSubtitle.textContent = 'Join Hosur\'s premier dental clinic. Access digital consultation history, doctor scheduling & treatment records instantly.';
@@ -865,7 +865,7 @@ function switchAuthTab(mode) {
     if (signInForm) { signInForm.style.display = 'none'; signInForm.classList.remove('active'); }
 
     if (authCardBody) authCardBody.classList.add('reverse-layout');
-    if (authVisualBg) authVisualBg.style.backgroundImage = "url('./assets/images/facilities.jpg')";
+    if (authVisualImg) authVisualImg.src = './assets/images/facilities.jpg';
 
     if (authVisualTitle) authVisualTitle.textContent = 'Start Managing Your Dental Care Today.';
     if (authVisualSubtitle) authVisualSubtitle.textContent = 'Create your free account to access digital appointment history, care plans & priority specialist bookings.';
