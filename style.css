@@ -2985,3 +2985,41 @@ textarea.form-control {
   font-weight: 700;
   white-space: nowrap;
 }
+
+/* Header Direct Logout Button (Between Dark Mode & Profile) */
+.btn-header-logout {
+  padding: 0.45rem 0.9rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  border-radius: var(--radius-md);
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.btn-header-logout:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-header-logout i {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .btn-header-logout span {
+    display: none;
+  }
+  .btn-header-logout {
+    padding: 0.45rem 0.65rem;
+  }
+}

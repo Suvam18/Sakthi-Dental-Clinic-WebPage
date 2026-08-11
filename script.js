@@ -893,6 +893,7 @@ function updateAuthStateUI() {
 
   const navGuestActions = document.getElementById('navGuestActions');
   const navUserDropdown = document.getElementById('navUserDropdown');
+  const navHeaderLogoutBtn = document.getElementById('navHeaderLogoutBtn');
 
   const mobileGuestAuth = document.getElementById('mobileGuestAuth');
   const mobileUserAuth = document.getElementById('mobileUserAuth');
@@ -919,6 +920,7 @@ function updateAuthStateUI() {
 
     if (navGuestActions) navGuestActions.style.display = 'none';
     if (navUserDropdown) navUserDropdown.style.display = 'inline-block';
+    if (navHeaderLogoutBtn) navHeaderLogoutBtn.style.display = 'inline-flex';
 
     // Show Authenticated Mobile Drawer
     if (mobileNavGuest) mobileNavGuest.style.display = 'none';
@@ -982,6 +984,7 @@ function updateAuthStateUI() {
 
     if (navGuestActions) navGuestActions.style.display = 'inline-block';
     if (navUserDropdown) navUserDropdown.style.display = 'none';
+    if (navHeaderLogoutBtn) navHeaderLogoutBtn.style.display = 'none';
 
     // Show Guest Mobile Drawer
     if (mobileNavGuest) mobileNavGuest.style.display = 'flex';
