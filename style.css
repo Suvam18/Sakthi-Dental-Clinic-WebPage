@@ -2986,7 +2986,7 @@ textarea.form-control {
   white-space: nowrap;
 }
 
-/* Header Direct Logout Button (Between Dark Mode & Profile) */
+/* Header Direct Logout Button (Between Dark Mode & Profile: Text Only) */
 .btn-header-logout {
   padding: 0.45rem 0.9rem;
   background: rgba(239, 68, 68, 0.08);
@@ -2998,7 +2998,7 @@ textarea.form-control {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
@@ -3011,15 +3011,9 @@ textarea.form-control {
   transform: translateY(-1px);
 }
 
-.btn-header-logout i {
-  font-size: 0.875rem;
-}
-
 @media (max-width: 640px) {
-  .btn-header-logout span {
-    display: none;
-  }
   .btn-header-logout {
-    padding: 0.45rem 0.65rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
   }
 }

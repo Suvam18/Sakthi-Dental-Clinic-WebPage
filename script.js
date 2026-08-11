@@ -900,6 +900,7 @@ function updateAuthStateUI() {
 
   const guestAppointmentsState = document.getElementById('guestAppointmentsState');
   const userAppointmentsState = document.getElementById('userAppointmentsState');
+  const heroSection = document.getElementById('home');
 
   if (currentUserRaw) {
     const user = JSON.parse(currentUserRaw);
@@ -912,6 +913,9 @@ function updateAuthStateUI() {
       .toUpperCase() || 'U';
 
     const formattedRole = 'Patient';
+
+    // Hide Hero Section After Login
+    if (heroSection) heroSection.style.display = 'none';
 
     // Show Authenticated Navbar (My Bookings, Fix an Appointment, Profile Badge)
     if (guestNavMenu) guestNavMenu.style.display = 'none';
@@ -977,6 +981,9 @@ function updateAuthStateUI() {
     if (typeof renderUserAppointments === 'function') renderUserAppointments();
 
   } else {
+    // Show Hero Section for Guest Mode
+    if (heroSection) heroSection.style.display = 'block';
+
     // Show Guest Navbar (Home, About Us, Treatments, FAQs, Contact, Login Button)
     if (guestNavMenu) guestNavMenu.style.display = 'flex';
     if (userNavMenu) userNavMenu.style.display = 'none';
