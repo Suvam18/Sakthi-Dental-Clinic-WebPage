@@ -29,22 +29,67 @@
         <div class="logo-text">Sakthi <span>Dental</span></div>
       </a>
 
-      <nav class="nav-menu">
+      <!-- GUEST NAV MENU (Before Login: Home, About Us, Treatments, FAQs, Contact) -->
+      <nav class="nav-menu nav-menu-guest" id="guestNavMenu">
         <a href="#home" class="nav-link active">Home</a>
-        <a href="#my-appointments" class="nav-link"><i class="fa-solid fa-calendar-check" style="font-size: 0.85rem;"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
         <a href="#about" class="nav-link">About Us</a>
         <a href="#treatments" class="nav-link">Treatments</a>
         <a href="#faqs" class="nav-link">FAQs</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
+      <!-- AUTHENTICATED NAV MENU (After Login: My Bookings, Fix an Appointment, Our Team, Treatments) -->
+      <nav class="nav-menu nav-menu-user" id="userNavMenu" style="display: none;">
+        <a href="#my-appointments" class="nav-link active"><i class="fa-solid fa-calendar-check" style="font-size: 0.85rem;"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
+        <a href="#appointment" class="nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus" style="font-size: 0.85rem;"></i> Fix an Appointment</a>
+        <a href="#doctors" class="nav-link"><i class="fa-solid fa-user-doctor" style="font-size: 0.85rem;"></i> Our Team</a>
+        <a href="#treatments" class="nav-link"><i class="fa-solid fa-kit-medical" style="font-size: 0.85rem;"></i> Treatments</a>
+      </nav>
+
       <div class="nav-actions">
+        <!-- Dark Mode Toggle Button -->
         <button class="theme-toggle-btn" aria-label="Toggle Theme">
           <i class="fa-solid fa-moon"></i>
         </button>
-        <button class="btn btn-primary trigger-appointment">
-          <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
-        </button>
+
+        <!-- Guest State Auth Button (Before Login: Text Only Login Button) -->
+        <div class="auth-guest-actions" id="navGuestActions">
+          <button class="btn btn-nav-auth btn-primary-auth open-auth-btn" data-auth-mode="signin">
+            Login
+          </button>
+        </div>
+
+        <!-- Authenticated User Profile Dropdown (After Login) -->
+        <div class="auth-user-dropdown" id="navUserDropdown" style="display: none;">
+          <button class="user-profile-badge-btn" id="userProfileBadgeBtn" aria-label="User Profile Menu">
+            <div class="user-avatar-circle" id="navUserAvatar">JD</div>
+            <div class="user-meta-info">
+              <span class="user-nav-name" id="navUserName">Jane Doe</span>
+              <span class="user-nav-role-badge" id="navUserRole">Patient</span>
+            </div>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="dropdown-header">
+              <strong id="dropdownUserFullName">Jane Doe</strong>
+              <span id="dropdownUserEmail">jane@example.com</span>
+            </div>
+            <button type="button" class="dropdown-item open-profile-modal-btn">
+              <i class="fa-solid fa-id-card"></i> View Patient Profile
+            </button>
+            <a href="#my-appointments" class="dropdown-item">
+              <i class="fa-solid fa-calendar-check"></i> My Appointments
+            </a>
+            <button type="button" class="dropdown-item open-profile-modal-btn" data-target-tab="medical">
+              <i class="fa-solid fa-file-medical"></i> Medical Records & History
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" id="logoutBtn">
+              <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+            </button>
+          </div>
+        </div>
+
         <button class="hamburger" aria-label="Open Navigation Drawer">
           <i class="fa-solid fa-bars-staggered"></i>
         </button>
@@ -63,19 +108,51 @@
         </div>
         <button class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="mobile-nav-list">
+
+      <!-- GUEST MOBILE NAV LIST (Before Login) -->
+      <div class="mobile-nav-list mobile-nav-guest" id="mobileNavGuest">
         <a href="#home" class="mobile-nav-link active"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="#my-appointments" class="mobile-nav-link"><i class="fa-solid fa-calendar-check"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
         <a href="#about" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> About Us</a>
         <a href="#treatments" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
         <a href="#faqs" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQs</a>
         <a href="#contact" class="mobile-nav-link"><i class="fa-solid fa-paper-plane"></i> Contact</a>
       </div>
+
+      <!-- AUTHENTICATED MOBILE NAV LIST (After Login) -->
+      <div class="mobile-nav-list mobile-nav-user" id="mobileNavUser" style="display: none;">
+        <a href="#my-appointments" class="mobile-nav-link active"><i class="fa-solid fa-calendar-check"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
+        <a href="#appointment" class="mobile-nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus"></i> Fix an Appointment</a>
+        <a href="#doctors" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> Our Team</a>
+        <a href="#treatments" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
+      </div>
     </div>
-    <div style="margin-top: 2rem;">
-      <button class="btn btn-primary trigger-appointment" style="width: 100%;">
-        <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
-      </button>
+
+    <div style="margin-top: 2rem;" class="mobile-drawer-footer">
+      <div class="mobile-drawer-auth" id="mobileDrawerAuth">
+        <!-- Guest Login Button (Before Login) -->
+        <div class="mobile-guest-auth" id="mobileGuestAuth">
+          <button class="btn btn-primary-auth open-auth-btn" data-auth-mode="signin" style="width: 100%; display: inline-flex; justify-content: center; align-items: center; padding: 0.75rem 1rem; font-weight: 700;">
+            Login
+          </button>
+        </div>
+
+        <!-- Authenticated Mobile User Card & Actions (After Login) -->
+        <div class="mobile-user-auth" id="mobileUserAuth" style="display: none;">
+          <div class="mobile-user-card" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-card); border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-color);">
+            <div class="user-avatar-circle" id="mobileUserAvatar">JD</div>
+            <div>
+              <div class="user-nav-name" id="mobileUserName" style="font-weight: 700; color: var(--text-color);">Jane Doe</div>
+              <div class="user-nav-role-badge" id="mobileUserRole" style="font-size: 0.75rem; color: var(--primary);">Patient</div>
+            </div>
+          </div>
+          <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-calendar-plus"></i> Fix an Appointment
+          </button>
+          <button class="btn btn-outline-auth logout-btn" style="width: 100%;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -88,21 +165,12 @@
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <div class="hero-live-pill">
-            <span class="pulse-dot"></span> Hosur's Premier Dental Clinic • Open Daily 9 AM - 9 PM
-          </div>
-          <h1 class="hero-title-animated">
-            Specialized Dental Care for <span class="gradient-text-animated">Women, Children & Families</span>
+          <h1 class="hero-title-animated eye-catching-title">
+            Specialized Dental Care for <span class="gradient-text-animated ultra-bold-glow">Women, Children & Families</span>
           </h1>
           <p class="hero-subtext">
             Experience compassionate, expert-led dental services tailored to your needs, all in a modern and welcoming environment.
           </p>
-
-          <div class="hero-feature-tags">
-            <span class="tag-pill"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Painless LASER Tech</span>
-            <span class="tag-pill"><i class="fa-solid fa-tooth" style="color: var(--secondary);"></i> 15+ Advanced Treatments</span>
-            <span class="tag-pill"><i class="fa-solid fa-user-doctor" style="color: var(--accent-pink);"></i> 9 Specialist Doctors</span>
-          </div>
 
           <div class="hero-ctas">
             <button class="btn btn-primary btn-glow-primary trigger-appointment">
@@ -177,8 +245,41 @@
         <p class="section-subtitle">Track your upcoming clinic consultations, doctor preferences, and booking statuses in real time.</p>
       </div>
 
-      <div class="appointments-grid" id="myAppointmentsContainer">
-        <!-- Rendered dynamically by JavaScript -->
+      <!-- BEFORE LOGIN (GUEST STATE) -->
+      <div class="guest-lock-card" id="guestAppointmentsState" style="display: block;">
+        <div class="guest-lock-icon"><i class="fa-solid fa-user-lock"></i></div>
+        <h3>Patient Portal Login</h3>
+        <p>Access your scheduled dental consultations, doctor care plans, and medical history. Existing users log in below. <strong>First time visiting?</strong> Click <strong>Login</strong> and select <strong>Sign Up</strong> to create your account!</p>
+        <div class="guest-lock-actions">
+          <button class="btn btn-primary btn-glow-primary open-auth-btn" data-auth-mode="signin" style="padding: 0.85rem 2.2rem; font-size: 1.05rem;">
+            <i class="fa-solid fa-right-to-bracket"></i> Login to Patient Portal
+          </button>
+        </div>
+        <div style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-muted);">
+          New Patient? <a href="#" class="open-auth-btn" data-auth-mode="signup" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Click here to Sign Up & Register</a>
+        </div>
+      </div>
+
+      <!-- AFTER LOGIN (AUTHENTICATED STATE) -->
+      <div class="user-dashboard-view" id="userAppointmentsState" style="display: none;">
+        <div class="patient-profile-bar">
+          <div class="patient-bar-info">
+            <div class="user-avatar-circle lg" id="dashboardAvatar">JD</div>
+            <div>
+              <h3 class="patient-welcome-name" id="dashboardWelcomeName">Welcome back, Jane Doe!</h3>
+              <p class="patient-meta-sub" id="dashboardMetaSub"><i class="fa-solid fa-envelope"></i> jane@example.com • <i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+            </div>
+          </div>
+          <div class="patient-bar-actions">
+            <button class="btn btn-primary trigger-appointment">
+              <i class="fa-solid fa-calendar-plus"></i> New Appointment
+            </button>
+          </div>
+        </div>
+
+        <div class="appointments-grid" id="myAppointmentsContainer">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
       </div>
     </div>
   </section>
@@ -329,8 +430,8 @@
         </div>
       </div>
 
-      <!-- Doctors Grid -->
-      <div style="margin-top: 5rem;">
+      <!-- Doctors Grid Section -->
+      <div id="doctors" style="margin-top: 5rem; scroll-margin-top: 100px;">
         <div class="section-header reveal-on-scroll">
           <div class="badge"><i class="fa-solid fa-user-group"></i> Medical Experts</div>
           <h2 class="section-title">Our Team of Doctors</h2>
@@ -498,7 +599,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> LASER Guided Scaling</li>
                 <li><i class="fa-solid fa-circle-check"></i> Quick 35 Min Session</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 1,200 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -520,7 +625,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Natural Composite Resin</li>
                 <li><i class="fa-solid fa-circle-check"></i> Single Visit Treatment</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 800 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -542,7 +651,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Gentle Painless Protocol</li>
                 <li><i class="fa-solid fa-circle-check"></i> Fast Recovery Guidance</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 1,500 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -564,7 +677,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Custom Ergonomic Fit</li>
                 <li><i class="fa-solid fa-circle-check"></i> Natural Aesthetic Shade</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 15,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -586,7 +703,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Lifetime Osseointegration</li>
                 <li><i class="fa-solid fa-circle-check"></i> 99.2% Clinical Success Rate</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 22,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -608,7 +729,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Bloodless Precision</li>
                 <li><i class="fa-solid fa-circle-check"></i> Zero Noise Comfort</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 3,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -630,7 +755,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Saves Natural Teeth</li>
                 <li><i class="fa-solid fa-circle-check"></i> Rotary Endo Equipment</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 3,500 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -652,7 +781,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Specialist Oral Surgeon</li>
                 <li><i class="fa-solid fa-circle-check"></i> Low-Swell Recovery</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 4,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -674,7 +807,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Zirconia & Ceramic Options</li>
                 <li><i class="fa-solid fa-circle-check"></i> Restores Full Chewing Power</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 4,500 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -696,7 +833,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Up to 8 Shades Brighter</li>
                 <li><i class="fa-solid fa-circle-check"></i> Enamel-Safe Formula</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 6,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -718,7 +859,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Custom Stain-Resistant Porcelain</li>
                 <li><i class="fa-solid fa-circle-check"></i> Flawless Natural Aesthetic</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 8,500 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -740,7 +885,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Kid-Friendly Dentists</li>
                 <li><i class="fa-solid fa-circle-check"></i> Protective Pit & Fissure Sealants</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 900 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -762,7 +911,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Halts Bone Loss & Recession</li>
                 <li><i class="fa-solid fa-circle-check"></i> LASER Sterilized Pockets</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 6,500 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -784,7 +937,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Metal & Ceramic Options</li>
                 <li><i class="fa-solid fa-circle-check"></i> Expert Orthodontist Supervision</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 25,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -806,7 +963,11 @@
                 <li><i class="fa-solid fa-circle-check"></i> Nearly Invisible & Removable</li>
                 <li><i class="fa-solid fa-circle-check"></i> 3D Digital Smile Simulation</li>
               </ul>
-              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1.25rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
+              <div class="treatment-price-row" style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border-radius: 8px; border: 1px dashed rgba(16, 185, 129, 0.25);">
+                <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 600;">Estimated Cost:</span>
+                <span style="font-weight: 800; color: #10b981; font-size: 0.9rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 45,000 onwards</span>
+              </div>
+              <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-calendar-check"></i> Book Consultation</button>
             </div>
           </div>
         </div>
@@ -1360,6 +1521,279 @@
       </div>
     </div>
   </footer>
+
+  <!-- Auth Modal (Sign In / Sign Up Split Screen) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="auth-modal-card">
+      <button class="close-modal-btn close-auth-modal-btn" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="auth-card-body">
+        <!-- Form Side -->
+        <div class="auth-form-side">
+          <!-- Auth Mode Tabs (Sign In / Sign Up) -->
+          <div class="auth-mode-switch">
+            <button type="button" class="auth-mode-btn active" id="tabBtnSignIn" data-tab="signin">Sign In</button>
+            <button type="button" class="auth-mode-btn" id="tabBtnSignUp" data-tab="signup">Sign Up</button>
+          </div>
+
+          <!-- SIGN IN FORM -->
+          <form id="signInForm" class="auth-form-content active">
+            <div class="form-group">
+              <label for="signInEmail">Email or Phone</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="text" id="signInEmail" class="form-control with-icon" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signInPassword">Password</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="signInPassword" class="form-control with-icon with-eye" placeholder="Enter your password" required>
+                <button type="button" class="toggle-password-btn" aria-label="Toggle Password Visibility">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-options-row">
+              <label class="checkbox-container">
+                <input type="checkbox" id="rememberMe" checked>
+                <span class="checkmark"></span>
+                Remember me
+              </label>
+              <a href="#" class="forgot-link" id="forgotPasswordBtn">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-submit-btn" id="signInSubmitBtn">
+              Login
+            </button>
+
+            <!-- New User Guidance Card -->
+            <div class="new-user-guidance-card">
+              <div class="guidance-body">
+                <i class="fa-solid fa-sparkles guidance-star-icon"></i>
+                <div>
+                  <strong>First time visiting Sakthi Dental?</strong>
+                  <p>New patients can easily create a free account.</p>
+                </div>
+              </div>
+              <button type="button" class="btn-guidance-signup" id="guidanceSignUpBtn">
+                Go to Sign Up <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Quick Demo Logins -->
+            <div class="demo-auth-box">
+              <div class="demo-box-title"><i class="fa-solid fa-lightbulb"></i> Quick Patient Demo:</div>
+              <div class="demo-btn-group">
+                <button type="button" class="demo-chip-btn" id="fillDemoPatient" style="width: 100%;">
+                  <i class="fa-solid fa-user"></i> Auto-fill Patient Demo Login
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-footer-switch">
+              No account yet? <a href="#" id="switchToSignUpLink">Sign Up</a>
+            </div>
+          </form>
+
+          <!-- SIGN UP FORM -->
+          <form id="signUpForm" class="auth-form-content" style="display: none;">
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label for="signUpName" id="signUpNameLabel">Full Name</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-user input-icon"></i>
+                  <input type="text" id="signUpName" class="form-control with-icon" placeholder="Jane Doe" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="signUpPhone">Phone Number</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-phone input-icon"></i>
+                  <input type="tel" id="signUpPhone" class="form-control with-icon" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signUpEmail">Email Address</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="email" id="signUpEmail" class="form-control with-icon" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signUpPassword">Password</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="signUpPassword" class="form-control with-icon with-eye" placeholder="Create a strong password" required>
+                <button type="button" class="toggle-password-btn" aria-label="Toggle Password Visibility">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success-auth auth-submit-btn" id="signUpSubmitBtn">
+              Create Patient Account
+            </button>
+
+            <div class="auth-footer-switch">
+              Already have an account? <a href="#" id="switchToSignInLink">Sign In</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Visual Side -->
+        <div class="auth-visual-side">
+          <div class="auth-visual-bg" style="background-image: url('./assets/images/auth_banner.jpg');"></div>
+          <div class="auth-visual-overlay">
+            <div class="auth-visual-header">
+              <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
+                <div class="logo-text">Sakthi <span>Dental</span></div>
+              </div>
+            </div>
+
+            <div class="auth-visual-content">
+              <div class="auth-network-pill" id="authNetworkPill">SAKTHI HEALTHCARE NETWORK</div>
+              <h2 id="authVisualTitle">Painless Dental Care. Lifelong Healthy Smiles.</h2>
+              <p id="authVisualSubtitle">Join Hosur's premier dental clinic. Access digital consultation history, doctor scheduling & treatment records instantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Profile & Medical History Modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="profile-modal-card">
+      <button class="close-modal-btn close-profile-modal-btn" id="closeProfileModalBtn" aria-label="Close Profile Modal"><i class="fa-solid fa-xmark"></i></button>
+
+      <!-- Profile Header Banner -->
+      <div class="profile-header-banner">
+        <div class="profile-avatar-large" id="modalProfileAvatar">JD</div>
+        <div class="profile-banner-info">
+          <h2 id="modalProfileName">Jane Doe</h2>
+          <div class="profile-meta-tags">
+            <span class="meta-tag"><i class="fa-solid fa-id-badge"></i> ID: <strong id="modalProfilePatientId">SP-2026-8891</strong></span>
+            <span class="meta-tag"><i class="fa-solid fa-calendar-days"></i> Joined: <strong id="modalProfileMemberSince">August 2026</strong></span>
+            <span class="meta-tag badge-patient"><i class="fa-solid fa-user-heart"></i> Verified Patient</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Navigation Tabs -->
+      <div class="profile-nav-tabs">
+        <button type="button" class="profile-tab-btn active" id="profTabBtnPersonal" data-profile-tab="personal"><i class="fa-solid fa-user"></i> Personal Details</button>
+        <button type="button" class="profile-tab-btn" id="profTabBtnMedical" data-profile-tab="medical"><i class="fa-solid fa-notes-medical"></i> Medical History</button>
+        <button type="button" class="profile-tab-btn" id="profTabBtnReports" data-profile-tab="reports"><i class="fa-solid fa-file-invoice-dollar"></i> Reports & X-Rays</button>
+      </div>
+
+      <div class="profile-modal-body">
+        <!-- 1. PERSONAL DETAILS TAB -->
+        <div class="profile-tab-content active" id="tabPersonal">
+          <form id="profilePersonalForm">
+            <div class="profile-grid-2col">
+              <div class="form-group">
+                <label><i class="fa-solid fa-user"></i> Full Name</label>
+                <input type="text" id="profName" class="form-control" placeholder="Full Name" required>
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                <input type="email" id="profEmail" class="form-control" placeholder="Email" readonly style="opacity: 0.85; cursor: not-allowed; background: rgba(255,255,255,0.05);">
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-phone"></i> Phone Number</label>
+                <input type="tel" id="profPhone" class="form-control" placeholder="+91 98765 43210">
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                <select id="profGender" class="form-control">
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Other">Other / Prefer not to say</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-cake-candles"></i> Age / Date of Birth</label>
+                <input type="text" id="profDob" class="form-control" placeholder="28 Years (15 May 1998)">
+              </div>
+              <div class="form-group">
+                <label><i class="fa-solid fa-droplet"></i> Blood Group</label>
+                <select id="profBloodGroup" class="form-control">
+                  <option value="O+">O +ve</option>
+                  <option value="O-">O -ve</option>
+                  <option value="A+">A +ve</option>
+                  <option value="A-">A -ve</option>
+                  <option value="B+">B +ve</option>
+                  <option value="B-">B -ve</option>
+                  <option value="AB+">AB +ve</option>
+                  <option value="AB-">AB -ve</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
+              <label><i class="fa-solid fa-location-dot"></i> Emergency Contact & Address</label>
+              <input type="text" id="profAddress" class="form-control" placeholder="Hosur, Tamil Nadu (Emergency: +91 98628 90897)">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 1.25rem; width: 100%;"><i class="fa-solid fa-floppy-disk"></i> Save Profile Details</button>
+          </form>
+        </div>
+
+        <!-- 2. MEDICAL HISTORY TAB -->
+        <div class="profile-tab-content" id="tabMedical" style="display: none;">
+          <div class="medical-history-box">
+            <div class="med-section-card">
+              <h4><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> Known Allergies</h4>
+              <p id="profAllergies">No known drug allergies reported. Penicillin skin test negative.</p>
+            </div>
+            <div class="med-section-card">
+              <h4><i class="fa-solid fa-heart-pulse" style="color: #3b82f6;"></i> Chronic Health Conditions</h4>
+              <div class="med-chips">
+                <span class="med-chip"><i class="fa-solid fa-check"></i> BP Normal</span>
+                <span class="med-chip"><i class="fa-solid fa-check"></i> Non-Diabetic</span>
+                <span class="med-chip"><i class="fa-solid fa-check"></i> No Bleeding Disorders</span>
+              </div>
+            </div>
+            <div class="med-section-card">
+              <h4><i class="fa-solid fa-tooth" style="color: #10b981;"></i> Recorded Dental History</h4>
+              <ul class="past-treatment-list">
+                <li><i class="fa-solid fa-circle-check"></i> LASER Teeth Cleaning & Scaling (March 2026)</li>
+                <li><i class="fa-solid fa-circle-check"></i> Composite Tooth Filling - Upper Molar (Nov 2025)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. REPORTS & X-RAYS TAB -->
+        <div class="profile-tab-content" id="tabReports" style="display: none;">
+          <div class="reports-grid">
+            <div class="report-item-card">
+              <div class="report-icon"><i class="fa-solid fa-x-ray"></i></div>
+              <div class="report-info">
+                <strong>Full Mouth OPG Digital X-Ray</strong>
+                <span>Scanned on Aug 2026 • Dr. R. Sakthi</span>
+              </div>
+              <span class="report-badge">PDF / DICOM</span>
+            </div>
+            <div class="report-item-card">
+              <div class="report-icon"><i class="fa-solid fa-file-prescription"></i></div>
+              <div class="report-info">
+                <strong>Post-scaling Care Plan & Prescription</strong>
+                <span>Issued Aug 2026 • Sakthi Dental Clinic</span>
+              </div>
+              <span class="report-badge">Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Connected JavaScript -->
   <script src="script.js" defer></script>

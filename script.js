@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initActiveNavLink();
   initScrollAnimations();
+  initAuthSystem();
   renderAppointments();
 });
 
@@ -561,3 +562,575 @@ function initScrollAnimations() {
 
   revealElements.forEach(el => observer.observe(el));
 }
+
+/* ==========================================================================
+   10. Authentication System & User Session Management
+   ========================================================================== */
+
+let currentAuthRole = 'patient'; // 'patient' or 'doctor'
+let currentAuthTab = 'signin';   // 'signin' or 'signup'
+
+function initAuthSystem() {
+  const authModal = document.getElementById('authModal');
+  const openAuthBtns = document.querySelectorAll('.open-auth-btn');
+  const closeAuthBtn = document.querySelector('.close-auth-modal-btn');
+  
+  // Tab Switch Buttons
+  const tabBtnSignIn = document.getElementById('tabBtnSignIn');
+  const tabBtnSignUp = document.getElementById('tabBtnSignUp');
+  const switchToSignUpLink = document.getElementById('switchToSignUpLink');
+  const switchToSignInLink = document.getElementById('switchToSignInLink');
+
+  // Role Selector Buttons
+  const roleBtnPatient = document.getElementById('roleBtnPatient');
+  const roleBtnDoctor = document.getElementById('roleBtnDoctor');
+
+  // Forms
+  const signInForm = document.getElementById('signInForm');
+  const signUpForm = document.getElementById('signUpForm');
+
+  // User Profile Dropdown Toggle
+  const userProfileBadgeBtn = document.getElementById('userProfileBadgeBtn');
+  const userDropdownContainer = document.getElementById('navUserDropdown');
+
+  // Password Visibility Toggle
+  const togglePasswordBtns = document.querySelectorAll('.toggle-password-btn');
+
+  // Demo Login Chips
+  const fillDemoPatientBtn = document.getElementById('fillDemoPatient');
+  const fillDemoDoctorBtn = document.getElementById('fillDemoDoctor');
+
+  // Logout buttons
+  const logoutBtns = document.querySelectorAll('.logout-btn');
+
+  // 1. Open Auth Modal Triggers
+  openAuthBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetMode = btn.getAttribute('data-auth-mode') || 'signin';
+      switchAuthTab(targetMode);
+      if (authModal) {
+        authModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // 2. Close Modal
+  function closeAuthModal() {
+    if (authModal) {
+      authModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (closeAuthBtn) {
+    closeAuthBtn.addEventListener('click', closeAuthModal);
+  }
+
+  if (authModal) {
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) closeAuthModal();
+    });
+  }
+
+  // 3. Tab Switching Event Listeners
+  if (tabBtnSignIn) tabBtnSignIn.addEventListener('click', () => switchAuthTab('signin'));
+  if (tabBtnSignUp) tabBtnSignUp.addEventListener('click', () => switchAuthTab('signup'));
+  if (switchToSignUpLink) switchToSignUpLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('signup'); });
+  if (switchToSignInLink) switchToSignInLink.addEventListener('click', (e) => { e.preventDefault(); switchAuthTab('signin'); });
+
+  const guidanceSignUpBtns = document.querySelectorAll('.btn-guidance-signup, #guidanceSignUpBtn');
+  guidanceSignUpBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchAuthTab('signup');
+    });
+  });
+
+  // 4. Role Switching Event Listeners
+  if (roleBtnPatient) roleBtnPatient.addEventListener('click', () => switchAuthRole('patient'));
+  if (roleBtnDoctor) roleBtnDoctor.addEventListener('click', () => switchAuthRole('doctor'));
+
+  // 5. Password Eye Icon Toggle
+  togglePasswordBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.previousElementSibling;
+      if (!input) return;
+      const isPassword = input.getAttribute('type') === 'password';
+      input.setAttribute('type', isPassword ? 'text' : 'password');
+      btn.innerHTML = isPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+    });
+  });
+
+  // 6. Demo Chips Quick Fill
+  if (fillDemoPatientBtn) {
+    fillDemoPatientBtn.addEventListener('click', () => {
+      switchAuthTab('signin');
+      switchAuthRole('patient');
+      document.getElementById('signInEmail').value = 'jane@example.com';
+      document.getElementById('signInPassword').value = 'password123';
+      showToast('Patient demo credentials pre-filled!', 'info');
+    });
+  }
+
+  if (fillDemoDoctorBtn) {
+    fillDemoDoctorBtn.addEventListener('click', () => {
+      switchAuthTab('signin');
+      switchAuthRole('doctor');
+      document.getElementById('signInEmail').value = 'dr.anupriya@sakthidental.in';
+      document.getElementById('signInPassword').value = 'doctor123';
+      showToast('Doctor demo credentials pre-filled!', 'info');
+    });
+  }
+
+  // 7. Navbar Profile Dropdown Toggle
+  if (userProfileBadgeBtn && userDropdownContainer) {
+    userProfileBadgeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdownContainer.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!userDropdownContainer.contains(e.target)) {
+        userDropdownContainer.classList.remove('active');
+      }
+    });
+  }
+
+  // 8. Sign Out / Logout
+  logoutBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  });
+
+  // 9. Sign In Form Submit
+  if (signInForm) {
+    signInForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signInEmail').value.trim();
+      const password = document.getElementById('signInPassword').value;
+
+      if (!email || !password) {
+        showToast('Please enter your email/phone and password.', 'error');
+        return;
+      }
+
+      if (password.length < 4) {
+        showToast('Password must be at least 4 characters long.', 'error');
+        return;
+      }
+
+      // Check registered users in localStorage or demo accounts
+      const storedUsers = JSON.parse(localStorage.getItem('sakthi_users') || '[]');
+      let user = storedUsers.find(u => 
+        (u.email.toLowerCase() === email.toLowerCase() || u.phone === email) && u.password === password
+      );
+
+      // Check default demo account
+      if (!user) {
+        if ((email.toLowerCase() === 'jane@example.com' || email.toLowerCase() === 'patient' || email === '9876543210') && (password === 'password123' || password === '123456' || password === 'patient')) {
+          user = { name: 'Jane Doe', email: 'jane@example.com', phone: '+91 98765 43210', password: 'password123', role: 'patient' };
+        }
+      }
+
+      if (!user) {
+        showToast('Invalid credentials! Please check your email/phone and password.', 'error');
+        return;
+      }
+
+      // Save user session
+      localStorage.setItem('sakthi_current_user', JSON.stringify(user));
+      closeAuthModal();
+      showToast(`Welcome back, ${user.name}!`, 'success');
+      updateAuthStateUI();
+    });
+  }
+
+  // 10. Sign Up Form Submit
+  if (signUpForm) {
+    signUpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signUpName').value.trim();
+      const phone = document.getElementById('signUpPhone').value.trim();
+      const email = document.getElementById('signUpEmail').value.trim();
+      const password = document.getElementById('signUpPassword').value;
+
+      if (!name || !phone || !email || !password) {
+        showToast('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showToast('Password must be at least 6 characters long.', 'error');
+        return;
+      }
+
+      // Check if user already exists
+      const storedUsers = JSON.parse(localStorage.getItem('sakthi_users') || '[]');
+      const existingUser = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase() || u.phone === phone);
+
+      if (existingUser) {
+        showToast('An account with this email or phone already exists! Please log in.', 'warning');
+        const signInEmailInput = document.getElementById('signInEmail');
+        if (signInEmailInput) signInEmailInput.value = email;
+        switchAuthTab('signin');
+        return;
+      }
+
+      const newUser = {
+        name: name,
+        phone: phone,
+        email: email,
+        password: password,
+        role: 'patient',
+        registeredAt: new Date().toLocaleDateString()
+      };
+
+      // Save to sakthi_users list
+      storedUsers.push(newUser);
+      localStorage.setItem('sakthi_users', JSON.stringify(storedUsers));
+
+      // DO NOT AUTO-LOGIN! Direct user to log in section to login manually!
+      const signInEmailInput = document.getElementById('signInEmail');
+      if (signInEmailInput) signInEmailInput.value = email;
+      const signInPasswordInput = document.getElementById('signInPassword');
+      if (signInPasswordInput) signInPasswordInput.value = '';
+
+      switchAuthTab('signin');
+      showToast(`Registration successful, ${name}! Please log in with your password to enter.`, 'success');
+    });
+  }
+
+  // Initialize UI State
+  updateAuthStateUI();
+}
+
+/* Tab Switch Helper */
+function switchAuthTab(mode) {
+  currentAuthTab = mode;
+  const tabBtnSignIn = document.getElementById('tabBtnSignIn');
+  const tabBtnSignUp = document.getElementById('tabBtnSignUp');
+  const signInForm = document.getElementById('signInForm');
+  const signUpForm = document.getElementById('signUpForm');
+
+  const authVisualTitle = document.getElementById('authVisualTitle');
+  const authVisualSubtitle = document.getElementById('authVisualSubtitle');
+
+  if (mode === 'signin') {
+    if (tabBtnSignIn) tabBtnSignIn.classList.add('active');
+    if (tabBtnSignUp) tabBtnSignUp.classList.remove('active');
+    if (signInForm) { signInForm.style.display = 'block'; signInForm.classList.add('active'); }
+    if (signUpForm) { signUpForm.style.display = 'none'; signUpForm.classList.remove('active'); }
+
+    if (authVisualTitle) authVisualTitle.textContent = 'Painless Dental Care. Lifelong Healthy Smiles.';
+    if (authVisualSubtitle) authVisualSubtitle.textContent = 'Join Hosur\'s premier dental clinic. Access digital consultation history, doctor scheduling & treatment records instantly.';
+  } else {
+    if (tabBtnSignUp) tabBtnSignUp.classList.add('active');
+    if (tabBtnSignIn) tabBtnSignIn.classList.remove('active');
+    if (signUpForm) { signUpForm.style.display = 'block'; signUpForm.classList.add('active'); }
+    if (signInForm) { signInForm.style.display = 'none'; signInForm.classList.remove('active'); }
+
+    if (authVisualTitle) authVisualTitle.textContent = 'Start Managing Your Dental Care Today.';
+    if (authVisualSubtitle) authVisualSubtitle.textContent = 'Create your free account to access digital appointment history, care plans & priority specialist bookings.';
+  }
+}
+
+/* Role Switch Helper */
+function switchAuthRole(role) {
+  currentAuthRole = role;
+  const roleBtnPatient = document.getElementById('roleBtnPatient');
+  const roleBtnDoctor = document.getElementById('roleBtnDoctor');
+  const doctorRegGroup = document.getElementById('doctorRegGroup');
+
+  const signUpNameLabel = document.getElementById('signUpNameLabel');
+  const signInSubmitBtn = document.getElementById('signInSubmitBtn');
+  const signUpSubmitBtn = document.getElementById('signUpSubmitBtn');
+  const authNetworkPill = document.getElementById('authNetworkPill');
+
+  if (role === 'doctor') {
+    if (roleBtnDoctor) roleBtnDoctor.classList.add('active');
+    if (roleBtnPatient) roleBtnPatient.classList.remove('active');
+    if (doctorRegGroup) doctorRegGroup.style.display = 'block';
+
+    if (signUpNameLabel) signUpNameLabel.textContent = 'Doctor Name';
+    if (signInSubmitBtn) signInSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In as Doctor';
+    if (signUpSubmitBtn) signUpSubmitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Register Specialist Doctor';
+    if (authNetworkPill) authNetworkPill.textContent = 'SAKTHI SPECIALIST NETWORK';
+  } else {
+    if (roleBtnPatient) roleBtnPatient.classList.add('active');
+    if (roleBtnDoctor) roleBtnDoctor.classList.remove('active');
+    if (doctorRegGroup) doctorRegGroup.style.display = 'none';
+
+    if (signUpNameLabel) signUpNameLabel.textContent = 'Full Name';
+    if (signInSubmitBtn) signInSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In as Patient';
+    if (signUpSubmitBtn) signUpSubmitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Register Patient';
+    if (authNetworkPill) authNetworkPill.textContent = 'SAKTHI HEALTHCARE NETWORK';
+  }
+}
+
+/* Logout Helper */
+function handleLogout() {
+  localStorage.removeItem('sakthi_current_user');
+  const userDropdownContainer = document.getElementById('navUserDropdown');
+  if (userDropdownContainer) userDropdownContainer.classList.remove('active');
+  showToast('Signed out successfully.', 'info');
+  updateAuthStateUI();
+}
+
+/* Auth State UI Controller */
+function updateAuthStateUI() {
+  const currentUserRaw = localStorage.getItem('sakthi_current_user');
+
+  const guestNavMenu = document.getElementById('guestNavMenu');
+  const userNavMenu = document.getElementById('userNavMenu');
+  const userAptBtn = document.getElementById('userAptBtn');
+
+  const mobileNavGuest = document.getElementById('mobileNavGuest');
+  const mobileNavUser = document.getElementById('mobileNavUser');
+
+  const navGuestActions = document.getElementById('navGuestActions');
+  const navUserDropdown = document.getElementById('navUserDropdown');
+
+  const mobileGuestAuth = document.getElementById('mobileGuestAuth');
+  const mobileUserAuth = document.getElementById('mobileUserAuth');
+
+  const guestAppointmentsState = document.getElementById('guestAppointmentsState');
+  const userAppointmentsState = document.getElementById('userAppointmentsState');
+
+  if (currentUserRaw) {
+    const user = JSON.parse(currentUserRaw);
+    const initials = user.name
+      .split(' ')
+      .filter(n => n.length > 0)
+      .map(n => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase() || 'U';
+
+    const formattedRole = 'Patient';
+
+    // Show Authenticated Navbar (My Bookings, Fix an Appointment, Profile Badge)
+    if (guestNavMenu) guestNavMenu.style.display = 'none';
+    if (userNavMenu) userNavMenu.style.display = 'flex';
+    if (userAptBtn) userAptBtn.style.display = 'inline-flex';
+
+    if (navGuestActions) navGuestActions.style.display = 'none';
+    if (navUserDropdown) navUserDropdown.style.display = 'inline-block';
+
+    // Show Authenticated Mobile Drawer
+    if (mobileNavGuest) mobileNavGuest.style.display = 'none';
+    if (mobileNavUser) mobileNavUser.style.display = 'flex';
+
+    if (mobileGuestAuth) mobileGuestAuth.style.display = 'none';
+    if (mobileUserAuth) mobileUserAuth.style.display = 'block';
+
+    // Set User Info in Nav
+    const navUserAvatar = document.getElementById('navUserAvatar');
+    const navUserName = document.getElementById('navUserName');
+    const navUserRole = document.getElementById('navUserRole');
+    const dropdownUserFullName = document.getElementById('dropdownUserFullName');
+    const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+
+    if (navUserAvatar) navUserAvatar.textContent = initials;
+    if (navUserName) navUserName.textContent = user.name;
+    if (navUserRole) navUserRole.textContent = formattedRole;
+    if (dropdownUserFullName) dropdownUserFullName.textContent = user.name;
+    if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'user@sakthidental.in';
+
+    // Set Mobile Drawer User Info
+    const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+    const mobileUserName = document.getElementById('mobileUserName');
+    const mobileUserRole = document.getElementById('mobileUserRole');
+
+    if (mobileUserAvatar) mobileUserAvatar.textContent = initials;
+    if (mobileUserName) mobileUserName.textContent = user.name;
+    if (mobileUserRole) mobileUserRole.textContent = formattedRole;
+
+    // Dashboard State
+    if (guestAppointmentsState) guestAppointmentsState.style.display = 'none';
+    if (userAppointmentsState) userAppointmentsState.style.display = 'block';
+
+    const dashboardAvatar = document.getElementById('dashboardAvatar');
+    const dashboardWelcomeName = document.getElementById('dashboardWelcomeName');
+    const dashboardMetaSub = document.getElementById('dashboardMetaSub');
+
+    if (dashboardAvatar) dashboardAvatar.textContent = initials;
+    if (dashboardWelcomeName) dashboardWelcomeName.textContent = `Welcome back, ${user.name}!`;
+    if (dashboardMetaSub) {
+      dashboardMetaSub.innerHTML = `<i class="fa-solid fa-envelope"></i> ${user.email} • <i class="fa-solid fa-phone"></i> ${user.phone || '+91 98765 43210'} • <span class="badge" style="background: rgba(79, 70, 229, 0.2); color: var(--primary); font-size: 0.75rem;">${formattedRole}</span>`;
+    }
+
+    // Auto-fill Appointment Form
+    const aptName = document.getElementById('aptName');
+    const aptPhone = document.getElementById('aptPhone');
+    const aptEmail = document.getElementById('aptEmail');
+    if (aptName && !aptName.value) aptName.value = user.name;
+    if (aptPhone && !aptPhone.value) aptPhone.value = user.phone || '';
+    if (aptEmail && !aptEmail.value) aptEmail.value = user.email || '';
+
+    // Render User Appointments List
+    if (typeof renderUserAppointments === 'function') renderUserAppointments();
+
+  } else {
+    // Show Guest Navbar (Home, About Us, Treatments, FAQs, Contact, Login Button)
+    if (guestNavMenu) guestNavMenu.style.display = 'flex';
+    if (userNavMenu) userNavMenu.style.display = 'none';
+    if (userAptBtn) userAptBtn.style.display = 'none';
+
+    if (navGuestActions) navGuestActions.style.display = 'inline-block';
+    if (navUserDropdown) navUserDropdown.style.display = 'none';
+
+    // Show Guest Mobile Drawer
+    if (mobileNavGuest) mobileNavGuest.style.display = 'flex';
+    if (mobileNavUser) mobileNavUser.style.display = 'none';
+
+    if (mobileGuestAuth) mobileGuestAuth.style.display = 'block';
+    if (mobileUserAuth) mobileUserAuth.style.display = 'none';
+
+    // Dashboard Guest Lock State
+    if (guestAppointmentsState) guestAppointmentsState.style.display = 'block';
+    if (userAppointmentsState) userAppointmentsState.style.display = 'none';
+  }
+}
+
+/* Patient Profile Modal Helper */
+function initProfileModal() {
+  const profileModal = document.getElementById('profileModal');
+  const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
+  const openProfileModalBtns = document.querySelectorAll('.open-profile-modal-btn, .user-profile-badge-btn');
+  const profileTabBtns = document.querySelectorAll('.profile-tab-btn');
+  const profilePersonalForm = document.getElementById('profilePersonalForm');
+
+  function openProfileModal(defaultTab = 'personal') {
+    const currentUserRaw = localStorage.getItem('sakthi_current_user');
+    if (!currentUserRaw) {
+      showToast('Please log in to view your patient profile.', 'info');
+      return;
+    }
+
+    const user = JSON.parse(currentUserRaw);
+    const initials = user.name
+      .split(' ')
+      .filter(n => n.length > 0)
+      .map(n => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase() || 'P';
+
+    // Populate modal fields
+    const modalProfileAvatar = document.getElementById('modalProfileAvatar');
+    const modalProfileName = document.getElementById('modalProfileName');
+    const modalProfilePatientId = document.getElementById('modalProfilePatientId');
+    const modalProfileMemberSince = document.getElementById('modalProfileMemberSince');
+
+    if (modalProfileAvatar) modalProfileAvatar.textContent = initials;
+    if (modalProfileName) modalProfileName.textContent = user.name;
+    if (modalProfilePatientId) modalProfilePatientId.textContent = user.patientId || `SP-2026-8891`;
+    if (modalProfileMemberSince) modalProfileMemberSince.textContent = user.registeredAt || 'August 2026';
+
+    const profName = document.getElementById('profName');
+    const profEmail = document.getElementById('profEmail');
+    const profPhone = document.getElementById('profPhone');
+    const profGender = document.getElementById('profGender');
+    const profDob = document.getElementById('profDob');
+    const profBloodGroup = document.getElementById('profBloodGroup');
+    const profAddress = document.getElementById('profAddress');
+
+    if (profName) profName.value = user.name || '';
+    if (profEmail) profEmail.value = user.email || '';
+    if (profPhone) profPhone.value = user.phone || '';
+    if (profGender) profGender.value = user.gender || 'Female';
+    if (profDob) profDob.value = user.dob || '28 Years (15 May 1998)';
+    if (profBloodGroup) profBloodGroup.value = user.bloodGroup || 'O+';
+    if (profAddress) profAddress.value = user.address || 'Hosur, Tamil Nadu (Emergency: +91 98628 90897)';
+
+    switchProfileTab(defaultTab);
+
+    if (profileModal) {
+      profileModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeProfileModal() {
+    if (profileModal) {
+      profileModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function switchProfileTab(tabName) {
+    profileTabBtns.forEach(btn => {
+      if (btn.getAttribute('data-profile-tab') === tabName) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    const tabContents = document.querySelectorAll('.profile-tab-content');
+    tabContents.forEach(content => {
+      if (content.id === `tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`) {
+        content.style.display = 'block';
+        content.classList.add('active');
+      } else {
+        content.style.display = 'none';
+        content.classList.remove('active');
+      }
+    });
+  }
+
+  openProfileModalBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetTab = btn.getAttribute('data-target-tab') || 'personal';
+      openProfileModal(targetTab);
+    });
+  });
+
+  if (closeProfileModalBtn) {
+    closeProfileModalBtn.addEventListener('click', closeProfileModal);
+  }
+
+  if (profileModal) {
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) closeProfileModal();
+    });
+  }
+
+  profileTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabName = btn.getAttribute('data-profile-tab');
+      switchProfileTab(tabName);
+    });
+  });
+
+  if (profilePersonalForm) {
+    profilePersonalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const currentUserRaw = localStorage.getItem('sakthi_current_user');
+      if (!currentUserRaw) return;
+
+      const user = JSON.parse(currentUserRaw);
+      user.name = document.getElementById('profName').value.trim() || user.name;
+      user.phone = document.getElementById('profPhone').value.trim() || user.phone;
+      user.gender = document.getElementById('profGender').value;
+      user.dob = document.getElementById('profDob').value.trim();
+      user.bloodGroup = document.getElementById('profBloodGroup').value;
+      user.address = document.getElementById('profAddress').value.trim();
+
+      localStorage.setItem('sakthi_current_user', JSON.stringify(user));
+      showToast('Patient profile updated successfully!', 'success');
+      updateAuthStateUI();
+      closeProfileModal();
+    });
+  }
+}
+
+// Call initProfileModal on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  initProfileModal();
+});

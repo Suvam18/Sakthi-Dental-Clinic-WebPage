@@ -26,7 +26,8 @@
         <div class="logo-text">Sakthi <span>Dental</span></div>
       </a>
 
-      <nav class="nav-menu">
+      <!-- GUEST NAV MENU (Before Login) -->
+      <nav class="nav-menu nav-menu-guest" id="guestNavMenu">
         <a href="index.html" class="nav-link">Home</a>
         <a href="about.html" class="nav-link">About Us</a>
         <a href="treatments.html" class="nav-link">Treatments</a>
@@ -34,13 +35,61 @@
         <a href="contact.html" class="nav-link active">Contact</a>
       </nav>
 
+      <!-- AUTHENTICATED NAV MENU (After Login) -->
+      <nav class="nav-menu nav-menu-user" id="userNavMenu" style="display: none;">
+        <a href="index.html#my-appointments" class="nav-link"><i class="fa-solid fa-calendar-check" style="font-size: 0.85rem;"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
+        <a href="index.html#appointment" class="nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus" style="font-size: 0.85rem;"></i> Fix an Appointment</a>
+        <a href="about.html#doctors" class="nav-link"><i class="fa-solid fa-user-doctor" style="font-size: 0.85rem;"></i> Our Team</a>
+        <a href="treatments.html" class="nav-link"><i class="fa-solid fa-kit-medical" style="font-size: 0.85rem;"></i> Treatments</a>
+      </nav>
+
       <div class="nav-actions">
+        <!-- Fix an Appointment Button (Visible ONLY After Login) -->
+        <button class="btn btn-primary trigger-appointment user-apt-btn" id="userAptBtn" style="display: none;">
+          <i class="fa-solid fa-calendar-plus"></i> Fix an Appointment
+        </button>
+
+        <!-- Dark Mode Toggle Button -->
         <button class="theme-toggle-btn" aria-label="Toggle Theme">
           <i class="fa-solid fa-moon"></i>
         </button>
-        <button class="btn btn-primary trigger-appointment">
-          <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
-        </button>
+
+        <!-- Guest State Auth Button (Before Login) -->
+        <div class="auth-guest-actions" id="navGuestActions">
+          <button class="btn btn-nav-auth btn-primary-auth open-auth-btn" data-auth-mode="signin">
+            Login
+          </button>
+        </div>
+
+        <!-- Authenticated User Profile Dropdown (After Login) -->
+        <div class="auth-user-dropdown" id="navUserDropdown" style="display: none;">
+          <button class="user-profile-badge-btn" id="userProfileBadgeBtn" aria-label="User Profile Menu">
+            <div class="user-avatar-circle" id="navUserAvatar">JD</div>
+            <div class="user-meta-info">
+              <span class="user-nav-name" id="navUserName">Jane Doe</span>
+              <span class="user-nav-role-badge" id="navUserRole">Patient</span>
+            </div>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="dropdown-header">
+              <strong id="dropdownUserFullName">Jane Doe</strong>
+              <span id="dropdownUserEmail">jane@example.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="index.html#my-appointments" class="dropdown-item">
+              <i class="fa-solid fa-calendar-check"></i> My Appointments
+            </a>
+            <a href="contact.html" class="dropdown-item">
+              <i class="fa-solid fa-file-medical"></i> Medical Records
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" id="logoutBtn">
+              <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+            </button>
+          </div>
+        </div>
+
         <button class="hamburger" aria-label="Open Navigation Drawer">
           <i class="fa-solid fa-bars-staggered"></i>
         </button>
@@ -59,18 +108,51 @@
         </div>
         <button class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="mobile-nav-list">
+
+      <!-- GUEST MOBILE NAV LIST -->
+      <div class="mobile-nav-list mobile-nav-guest" id="mobileNavGuest">
         <a href="index.html" class="mobile-nav-link"><i class="fa-solid fa-house"></i> Home</a>
         <a href="about.html" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> About Us</a>
         <a href="treatments.html" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
         <a href="faqs.html" class="mobile-nav-link"><i class="fa-solid fa-circle-question"></i> FAQs</a>
         <a href="contact.html" class="mobile-nav-link active"><i class="fa-solid fa-paper-plane"></i> Contact</a>
       </div>
+
+      <!-- AUTHENTICATED MOBILE NAV LIST -->
+      <div class="mobile-nav-list mobile-nav-user" id="mobileNavUser" style="display: none;">
+        <a href="index.html#my-appointments" class="mobile-nav-link"><i class="fa-solid fa-calendar-check"></i> My Bookings <span class="apt-badge-count red-alert-badge" style="display: none;"></span></a>
+        <a href="index.html#appointment" class="mobile-nav-link trigger-appointment"><i class="fa-solid fa-calendar-plus"></i> Fix an Appointment</a>
+        <a href="about.html#doctors" class="mobile-nav-link"><i class="fa-solid fa-user-doctor"></i> Our Team</a>
+        <a href="treatments.html" class="mobile-nav-link"><i class="fa-solid fa-kit-medical"></i> Treatments</a>
+      </div>
     </div>
-    <div style="margin-top: 2rem;">
-      <button class="btn btn-primary trigger-appointment" style="width: 100%;">
-        <i class="fa-solid fa-calendar-check"></i> Fix an Appointment
-      </button>
+
+    <div style="margin-top: 2rem;" class="mobile-drawer-footer">
+      <div class="mobile-drawer-auth" id="mobileDrawerAuth">
+        <!-- Guest Login Button -->
+        <div class="mobile-guest-auth" id="mobileGuestAuth">
+          <button class="btn btn-primary-auth open-auth-btn" data-auth-mode="signin" style="width: 100%; display: inline-flex; justify-content: center; align-items: center; padding: 0.75rem 1rem; font-weight: 700;">
+            Login
+          </button>
+        </div>
+
+        <!-- Authenticated Mobile User Card & Actions -->
+        <div class="mobile-user-auth" id="mobileUserAuth" style="display: none;">
+          <div class="mobile-user-card" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-card); border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-color);">
+            <div class="user-avatar-circle" id="mobileUserAvatar">JD</div>
+            <div>
+              <div class="user-nav-name" id="mobileUserName" style="font-weight: 700; color: var(--text-color);">Jane Doe</div>
+              <div class="user-nav-role-badge" id="mobileUserRole" style="font-size: 0.75rem; color: var(--primary);">Patient</div>
+            </div>
+          </div>
+          <button class="btn btn-primary trigger-appointment" style="width: 100%; margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-calendar-plus"></i> Fix an Appointment
+          </button>
+          <button class="btn btn-outline-auth logout-btn" style="width: 100%;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -298,6 +380,153 @@
       </div>
     </div>
   </footer>
+
+  <!-- Auth Modal (Sign In / Sign Up Split Screen) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="auth-modal-card">
+      <button class="close-modal-btn close-auth-modal-btn" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="auth-card-body">
+        <!-- Form Side -->
+        <div class="auth-form-side">
+          <!-- Auth Mode Tabs (Sign In / Sign Up) -->
+          <div class="auth-mode-switch">
+            <button type="button" class="auth-mode-btn active" id="tabBtnSignIn" data-tab="signin">Sign In</button>
+            <button type="button" class="auth-mode-btn" id="tabBtnSignUp" data-tab="signup">Sign Up</button>
+          </div>
+
+          <!-- SIGN IN FORM -->
+          <form id="signInForm" class="auth-form-content active">
+            <div class="form-group">
+              <label for="signInEmail">Email or Phone</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="text" id="signInEmail" class="form-control with-icon" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signInPassword">Password</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="signInPassword" class="form-control with-icon with-eye" placeholder="Enter your password" required>
+                <button type="button" class="toggle-password-btn" aria-label="Toggle Password Visibility">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-options-row">
+              <label class="checkbox-container">
+                <input type="checkbox" id="rememberMe" checked>
+                <span class="checkmark"></span>
+                Remember me
+              </label>
+              <a href="#" class="forgot-link" id="forgotPasswordBtn">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-submit-btn" id="signInSubmitBtn">
+              Login
+            </button>
+
+            <!-- New User Guidance Card -->
+            <div class="new-user-guidance-card">
+              <div class="guidance-body">
+                <i class="fa-solid fa-sparkles guidance-star-icon"></i>
+                <div>
+                  <strong>First time visiting Sakthi Dental?</strong>
+                  <p>New patients can easily create a free account.</p>
+                </div>
+              </div>
+              <button type="button" class="btn-guidance-signup" id="guidanceSignUpBtn">
+                Go to Sign Up <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Quick Demo Logins -->
+            <div class="demo-auth-box">
+              <div class="demo-box-title"><i class="fa-solid fa-lightbulb"></i> Quick Patient Demo:</div>
+              <div class="demo-btn-group">
+                <button type="button" class="demo-chip-btn" id="fillDemoPatient" style="width: 100%;">
+                  <i class="fa-solid fa-user"></i> Auto-fill Patient Demo Login
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-footer-switch">
+              No account yet? <a href="#" id="switchToSignUpLink">Sign Up</a>
+            </div>
+          </form>
+
+          <!-- SIGN UP FORM -->
+          <form id="signUpForm" class="auth-form-content" style="display: none;">
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label for="signUpName" id="signUpNameLabel">Full Name</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-user input-icon"></i>
+                  <input type="text" id="signUpName" class="form-control with-icon" placeholder="Jane Doe" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="signUpPhone">Phone Number</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-phone input-icon"></i>
+                  <input type="tel" id="signUpPhone" class="form-control with-icon" placeholder="+91 98765 43210" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signUpEmail">Email Address</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="email" id="signUpEmail" class="form-control with-icon" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signUpPassword">Password</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="signUpPassword" class="form-control with-icon with-eye" placeholder="Create a strong password" required>
+                <button type="button" class="toggle-password-btn" aria-label="Toggle Password Visibility">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success-auth auth-submit-btn" id="signUpSubmitBtn">
+              Create Patient Account
+            </button>
+
+            <div class="auth-footer-switch">
+              Already have an account? <a href="#" id="switchToSignInLink">Sign In</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Visual Side -->
+        <div class="auth-visual-side">
+          <div class="auth-visual-bg" style="background-image: url('./assets/images/auth_banner.jpg');"></div>
+          <div class="auth-visual-overlay">
+            <div class="auth-visual-header">
+              <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
+                <div class="logo-text">Sakthi <span>Dental</span></div>
+              </div>
+            </div>
+
+            <div class="auth-visual-content">
+              <div class="auth-network-pill" id="authNetworkPill">SAKTHI HEALTHCARE NETWORK</div>
+              <h2 id="authVisualTitle">Painless Dental Care. Lifelong Healthy Smiles.</h2>
+              <p id="authVisualSubtitle">Join Hosur's premier dental clinic. Access digital consultation history, doctor scheduling & treatment records instantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>
