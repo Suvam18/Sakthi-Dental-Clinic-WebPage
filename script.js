@@ -1140,7 +1140,72 @@ function initProfileModal() {
   }
 }
 
-// Call initProfileModal on DOMContentLoaded
+// Call initProfileModal & initAnimatedCounters on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   initProfileModal();
+  initAnimatedCounters();
 });
+
+/* Animated Number Counter Function */
+function initAnimatedCounters() {
+  const counters = document.querySelectorAll('.counter-number');
+  if (!counters.length) return;
+
+  let animated = false;
+
+  function animateCounters() {
+    if (animated) return;
+    animated = true;
+
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
+      const suffix = counter.getAttribute('data-suffix') || '';
+      const formatComma = counter.getAttribute('data-format') === 'comma';
+      const duration = 2200;
+      const startTime = performance.now();
+
+      function updateCounter(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        // Smooth easeOutExpo for satisfying slowdown at target
+        const easeOutProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const currentValue = Math.floor(easeOutProgress * target);
+
+        let formattedValue = currentValue.toString();
+        if (formatComma) {
+          formattedValue = currentValue.toLocaleString('en-IN');
+        }
+
+        counter.textContent = formattedValue + suffix;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
+        } else {
+          let finalFormatted = target.toString();
+          if (formatComma) {
+            finalFormatted = target.toLocaleString('en-IN');
+          }
+          counter.textContent = finalFormatted + suffix;
+        }
+      }
+
+      requestAnimationFrame(updateCounter);
+    });
+  }
+
+  const statsSection = document.querySelector('.hero-stats');
+  if (statsSection && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(statsSection);
+  } else {
+    animateCounters();
+  }
+}
