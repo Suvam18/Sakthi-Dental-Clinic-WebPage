@@ -2559,6 +2559,7 @@ textarea.form-control {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 550px;
 }
 
 .auth-visual-bg {
@@ -2566,17 +2567,20 @@ textarea.form-control {
   inset: 0;
   background-size: cover;
   background-position: center;
-  transition: transform 0.8s ease;
+  background-repeat: no-repeat;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: brightness(0.92) contrast(1.05);
 }
 
 .auth-visual-side:hover .auth-visual-bg {
-  transform: scale(1.04);
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.1);
 }
 
 .auth-visual-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.92) 80%);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.72) 85%);
   padding: 2.5rem;
   display: flex;
   flex-direction: column;
