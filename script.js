@@ -99,7 +99,20 @@ function initAppointmentModal() {
   ctaButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      
+
+      // Enforce login requirement for fixing appointment or booking consultation
+      const currentUserRaw = localStorage.getItem('sakthi_current_user');
+      if (!currentUserRaw) {
+        showToast('Please log in first to fix an appointment or book a consultation.', 'info');
+        const authModal = document.getElementById('authModal');
+        if (typeof switchAuthTab === 'function') switchAuthTab('signin');
+        if (authModal) {
+          authModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+        return;
+      }
+
       // If clicking trigger for fresh booking, reset editing state
       if (!currentEditingAptId && appointmentForm) {
         appointmentForm.reset();
@@ -139,6 +152,19 @@ function initAppointmentModal() {
   if (appointmentForm) {
     appointmentForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const currentUserRaw = localStorage.getItem('sakthi_current_user');
+      if (!currentUserRaw) {
+        showToast('Please log in first to fix an appointment or book a consultation.', 'info');
+        closeModal();
+        const authModal = document.getElementById('authModal');
+        if (typeof switchAuthTab === 'function') switchAuthTab('signin');
+        if (authModal) {
+          authModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+        return;
+      }
       
       const name = document.getElementById('aptName').value.trim();
       const phone = document.getElementById('aptPhone').value.trim();
